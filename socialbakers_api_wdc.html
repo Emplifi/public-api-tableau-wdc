@@ -119,8 +119,8 @@
 
 <!-- PROFILES -->
 <form id="profiles" style="display:none">
-    <div class="row" style="margin-bottom: 10px">
-        <div class="col-5 dropdown">
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-2 dropdown">
             <button type="button" class="btn btn-primary dropdown-toggle" id="data_source" data-bs-toggle="dropdown">
                 Profile metrics
             </button>
@@ -129,9 +129,18 @@
                 <li><a class="dropdown-item" href="#" data-source-type="aggregated_post">Aggregated post metrics</a>
                 </li>
                 <li><a class="dropdown-item" href="#" data-source-type="posts">Post metrics</a></li>
+                <li><a class="dropdown-item" href="#" data-source-type="facebook_ads">Facebook Ads</a></li>
             </ul>
         </div>
-        <div class="col">
+        <div class="col-4">
+            <div class="input-group mb-3" id="adAccountRange" style="width:300px; visibility: hidden">
+                <label for="daterange" class="input-group-text">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                </label>
+                <input type="text" class="form-control" name="daterange" id="daterangeAccounts">
+            </div>
+        </div>
+        <div class="col-6">
             <div class="input-group">
                 <span class="input-group-text"><ion-icon name="search-outline"></ion-icon></span>
                 <input type="text" class="form-control" id="search">

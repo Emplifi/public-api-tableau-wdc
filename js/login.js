@@ -79,11 +79,16 @@ async function onLoginSubmit(e) {
     tableau.username = $('#token').val()
     tableau.password = $('#secret').val()
 
+    let today = moment()
+    let monthAgo = today.subtract(30, 'days')
+
+
     let result = await fetchProfilesAndLabels()
-    if (result == -1){
+    if (result === -1){
         $loginSpinner.hide()
         return
     }
+    await setAdAccounts(today, monthAgo)
     $login.hide()
     renderProfiles()
 }
