@@ -1,6 +1,7 @@
 let $profiles = $('#profiles')
 let $profilesSpinner = $('#profilesSpinner').hide()
 let $profilesTable = $('#profilesTable')
+let $adaccountsSpinner = $('#adaccountsSpinner')
 
 async function onProfilesSubmit(e) {
     e.preventDefault()
@@ -45,13 +46,15 @@ async function onProfilesSubmit(e) {
         renderAggregatedPostMetrics()
     } else if (SBKS.data_source === 'posts') {
         renderPosts()
+    } else if (SBKS.data_source === 'facebook_ads') {
+        renderFacebookAds() 
     }
 }
 
 $(function() {
-    $('input[name="daterange"]').daterangepicker({
+    $('#daterangeAccounts').daterangepicker({
         opens: 'right'
-    }, setAdAccounts);
+    }, prepareFacebookAds);
 });
 
 $(function () {
@@ -82,6 +85,11 @@ $(function () {
     $(document).on('change', 'input[type=checkbox][name$=_profile]', function () {
         $('#profiles button[type=submit]')
             .prop('disabled', !$('input[type=checkbox][name$=_profile]:checked').length)
+    })
+
+    $(document).on('change', 'input[type=checkbox][name$=_ad_account]', function () {
+        $('#profiles button[type=submit]')
+            .prop('disabled', !$('input[type=checkbox][name$=_ad_account]:checked').length)
     })
 
     $(document).on('click', '#profiles tbody tr', function (e) {
@@ -142,21 +150,65 @@ function filterProfiles(search) {
     }
 }
 
-async function setAdAccounts(start, end, label) {
+
+async function prepareFacebookAds(start, end, label) {
     let dateRange = parseDateRange(`${start.format('MM/DD/YYYY')} - ${end.format('MM/DD/YYYY')}`)
     let adjustedDateRange = adjustDateRange(dateRange)
+    await setAdAccounts(adjustedDateRange)
+    await setCampaigns(adjustedDateRange)
+}
 
+async function setAdAccounts(dateRange) {
+    $adaccountsSpinner.show()
     let response = await callSbksApi(
         '3/ads/accounts',
         'POST',
         {
-            date_start: adjustedDateRange.start,
-            date_end: adjustedDateRange.end
+            date_start: dateRange.start,
+            date_end: dateRange.end
         }
     )
 
     SBKS.adaccounts = response.success ? response.ad_accounts : []
     renderAdAccounts()
+    $adaccountsSpinner.hide()
+}
+
+async function setCampaigns(dateRange) {
+    let response = await callSbksApi(
+        '3/facebook/ads/metrics',
+        'POST',
+        {
+            'ad_accounts': SBKS.adaccounts.map((item) => item.id),
+            'date_start': dateRange.start,
+            'date_end': dateRange.end,
+            'metrics': [{'metric': 'clicks'}],
+            'dimensions': [
+                {
+                    'type': 'campaign',
+                    'fields': [
+                        'campaign_name',
+                    ],
+                    'group': {
+                        'limit': 2000,
+                    },
+                },
+            ]
+        },
+    )
+
+	const campaignsFormatted = []
+    if (response.success) {
+		const campaigns = response.header[0]
+		for (let i = 0; i < campaigns.fields.length; i++) {
+			campaignsFormatted.push({
+				id: campaigns.rows[i],
+				name: campaigns.fields[i].campaign_name,
+			})
+		}
+    }
+    SBKS.campaigns = campaignsFormatted
+    console.log(campaignsFormatted)
 }
 
 function renderAdAccounts() {
@@ -230,12 +282,12 @@ function renderProfile(network, profile, $tbody) {
     )
 }
 
-function renderAdAccount(profile, $tbody) {
+function renderAdAccount(account, $tbody) {
     $tbody.append(
-        $(`<tr data-profile-id="${profile.id}" data-hidden="0">
-               <td><input class="form-check-input" type="checkbox" name="facebook_ad_account" value="${profile.id}"></td>
-               <td>${profile.name}</td>
-               <td>${profile.id}</td>
+        $(`<tr data-profile-id="${account.id}" data-hidden="0">
+               <td><input class="form-check-input" type="checkbox" name="facebook_ad_account" value="${account.id}"></td>
+               <td>${account.name}</td>
+               <td>${account.id}</td>
            </tr>`)
     )
 }

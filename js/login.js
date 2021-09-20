@@ -115,4 +115,10 @@ $(function () {
         $('#profileMetrics, #aggregatedPostMetrics, #posts').hide()
         $('#profiles').show()
     })
+
+    $('#facebook_ads .back').click(function () {
+        $('[id$=Spinner]').hide()
+        $('#facebook_ads').hide()
+        $('#profiles').show()
+    })
 })
