@@ -51,6 +51,10 @@ async function onProfilesSubmit(e) {
     }
 }
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
 $(function() {
     $('#daterangeAccounts').daterangepicker({
         opens: 'right'
@@ -154,11 +158,11 @@ function filterProfiles(search) {
 async function prepareFacebookAds(start, end, label) {
     let dateRange = parseDateRange(`${start.format('MM/DD/YYYY')} - ${end.format('MM/DD/YYYY')}`)
     let adjustedDateRange = adjustDateRange(dateRange)
-    await setAdAccounts(adjustedDateRange.start, adjustedDateRange.end)
+    await setAdAccounts(adjustedDateRange.start, adjustedDateRange.end, true)
     await setCampaigns(adjustedDateRange.start, adjustedDateRange.end)
 }
 
-async function setAdAccounts(start, end) {
+async function setAdAccounts(start, end, render) {
     $adaccountsSpinner.show()
     let response = await callSbksApi(
         '3/ads/accounts',
@@ -170,7 +174,9 @@ async function setAdAccounts(start, end) {
     )
 
     SBKS.adaccounts = response.success ? response.ad_accounts : []
-    renderAdAccounts()
+    if (render) {
+        renderAdAccounts()
+    }
     $adaccountsSpinner.hide()
 }
 
@@ -208,7 +214,6 @@ async function setCampaigns(start, end) {
 		}
     }
     SBKS.campaigns = campaignsFormatted
-    console.log(campaignsFormatted)
 }
 
 function renderAdAccounts() {

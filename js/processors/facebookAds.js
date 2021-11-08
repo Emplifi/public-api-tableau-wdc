@@ -80,9 +80,12 @@ function processMetricFbAd(sbksData, data, item, depth, index, row, rows) {
                 )['name']
             }
         } else if (header.type === 'campaign'){
-            row['campaign_id'] = header.rows[index]
-            row['campaign_name'] = sbksData.campaigns.find(
-                element => element.id === header.rows[index]
+            row['campaign'] = header.rows[index]
+            row['campaign_id'] = sbksData.campaigns.find(
+                element => element.name === header.rows[index]
+            )['id']
+            row['ad_account'] = sbksData.adaccounts.find(
+                element => element.id === row['campaign_id'].split('#')[0]
             )['name']
         } else {
             row[header.type.replace('.', '_')] = header.rows[index]
