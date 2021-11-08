@@ -10,6 +10,7 @@ let SBKS = {
         pinterest: '3/pinterest/profile/posts',
         vkontakte: '3/vkontakte/profile/posts'
     },
+    fb_ads_url: '3/facebook/ads/metrics',
     data_source: 'profile',
     networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
     icons: {
@@ -40,8 +41,7 @@ let SBKS = {
     fb_ads: {
         filters: {},
         sorts: {},
-        fields: {},
-        dimensions: {},
+        conf: {},
     },
 }
 

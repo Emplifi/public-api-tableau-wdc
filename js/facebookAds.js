@@ -10,17 +10,19 @@ function onFbAdsSubmit(e) {
     e.preventDefault()
     $('#fbAdsSpinner').show()
 
-    let filters = {}, sorts = {}, fields = {}, dimensions = {};
+    let filters = {}, sorts = {}, conf = {};
     for (const item of $fbAdsForm.serializeArray()) {
         if (['', undefined, null].includes(item.value)) {
             continue
         }
         if (item.name === 'fields[]') {
-            fields = processFormField(fields, item)
+            conf = processFormField(conf, item)
+            continue
         }
 
         if (item.name === 'dimensions[]') {
-            dimensions = processFormField(dimensions, item)
+            conf = processFormField(conf, item)
+            continue
         }
 
         if (item.name === 'daterange') {
@@ -36,14 +38,13 @@ function onFbAdsSubmit(e) {
         sorts = processFormField(sorts, item)
     }
 
-    if (!showModalIfLimitError(sorts, dimensions) || !showModalDimensionError(dimensions)) {
+    if (!showModalIfLimitError(sorts, conf.dimensions) || !showModalDimensionError(conf.dimensions)) {
         $('#fbAdsSpinner').hide()
         return
     }
     SBKS.fb_ads.filters = filters
     SBKS.fb_ads.sorts = sorts
-    SBKS.fb_ads.fields = fields
-    SBKS.fb_ads.dimensions = dimensions
+    SBKS.fb_ads.conf = conf
 
     tableau.connectionData = JSON.stringify(SBKS)
 
@@ -82,7 +83,8 @@ function showModalDimensionError(dimensions){
         return false
     }
 
-    if	(FACEBOOK_ADS_DIMENSION_FORBIDDEN_COMBINATIONS[dimensions[0]].includes(dimensions[1])) {
+    if	(FACEBOOK_ADS_DIMENSION_FORBIDDEN_COMBINATIONS.hasOwnProperty(dimensions[0]) &&
+        FACEBOOK_ADS_DIMENSION_FORBIDDEN_COMBINATIONS[dimensions[0]].includes(dimensions[1])) {
         showModal(
             'Dimension combination not allowed',
             `You cannot select ${dimensions[0]} together with ${dimensions[1]}. 

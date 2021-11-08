@@ -55,10 +55,10 @@ tableauConnector.getSchema = schemaCallback => {
             }
         }
     } else if (sbksData.data_source === 'facebook_ads') {
-        for (const metric of facebookMetrics) {
+        for (const metric of sbksData.fb_ads.conf.fields) {
             appendMetricColumn(metric, cols)
         }
-        for (const dimension of facebookDimensions) {
+        for (const dimension of sbksData.fb_ads.conf.dimensions) {
             appendDimensionColumn(dimension, cols)
         }
     }
