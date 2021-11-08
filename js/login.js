@@ -88,10 +88,16 @@ async function onLoginSubmit(e) {
         $loginSpinner.hide()
         return
     }
-    await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
+
+    await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
     await setCampaigns(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
+
     $login.hide()
-    renderProfiles()
+    if (SBKS.data_source === 'facebook_ads') {
+        renderAdAccounts()
+    } else {
+        renderProfiles()
+    }
 }
 
 function showModal(title, body) {

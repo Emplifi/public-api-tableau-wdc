@@ -38,6 +38,9 @@ function onFbAdsSubmit(e) {
         sorts = processFormField(sorts, item)
     }
 
+    sorts["campaign_limit"] = Number(sorts["campaign_limit"])
+    sorts["country_limit"] = Number(sorts["country_limit"])
+
     if (!showModalIfLimitError(sorts, conf.dimensions) || !showModalDimensionError(conf.dimensions)) {
         $('#fbAdsSpinner').hide()
         return
@@ -47,7 +50,6 @@ function onFbAdsSubmit(e) {
     SBKS.fb_ads.conf = conf
 
     tableau.connectionData = JSON.stringify(SBKS)
-
     invokeConnector(SBKS.data_source)
 }
 
