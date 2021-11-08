@@ -154,18 +154,18 @@ function filterProfiles(search) {
 async function prepareFacebookAds(start, end, label) {
     let dateRange = parseDateRange(`${start.format('MM/DD/YYYY')} - ${end.format('MM/DD/YYYY')}`)
     let adjustedDateRange = adjustDateRange(dateRange)
-    await setAdAccounts(adjustedDateRange)
-    await setCampaigns(adjustedDateRange)
+    await setAdAccounts(adjustedDateRange.start, adjustedDateRange.end)
+    await setCampaigns(adjustedDateRange.start, adjustedDateRange.end)
 }
 
-async function setAdAccounts(dateRange) {
+async function setAdAccounts(start, end) {
     $adaccountsSpinner.show()
     let response = await callSbksApi(
         '3/ads/accounts',
         'POST',
         {
-            date_start: dateRange.start,
-            date_end: dateRange.end
+            date_start: start,
+            date_end: end,
         }
     )
 
@@ -174,14 +174,14 @@ async function setAdAccounts(dateRange) {
     $adaccountsSpinner.hide()
 }
 
-async function setCampaigns(dateRange) {
+async function setCampaigns(start, end) {
     let response = await callSbksApi(
         '3/facebook/ads/metrics',
         'POST',
         {
             'ad_accounts': SBKS.adaccounts.map((item) => item.id),
-            'date_start': dateRange.start,
-            'date_end': dateRange.end,
+            'date_start': start,
+            'date_end': end,
             'metrics': [{'metric': 'clicks'}],
             'dimensions': [
                 {

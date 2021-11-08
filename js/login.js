@@ -88,7 +88,8 @@ async function onLoginSubmit(e) {
         $loginSpinner.hide()
         return
     }
-    await setAdAccounts(today, monthAgo)
+    await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
+    await setCampaigns(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
     $login.hide()
     renderProfiles()
 }
