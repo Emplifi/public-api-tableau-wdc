@@ -89,13 +89,13 @@ async function onLoginSubmit(e) {
         return
     }
 
-    await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
-    await setCampaigns(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
-
-    $login.hide()
     if (SBKS.data_source === 'facebook_ads') {
+        await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
+        await setCampaigns(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
+        $login.hide()
         renderAdAccounts()
     } else {
+        $login.hide()
         renderProfiles()
     }
 }

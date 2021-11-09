@@ -28,6 +28,7 @@ function appendDimensionColumn(name, cols, sbksData) {
         cols = appendColumn(cols, 'campaign_id', tableau.dataTypeEnum.string)
         cols = appendColumn(cols, 'campaign', tableau.dataTypeEnum.string)
         cols = appendColumn(cols, 'ad_account', tableau.dataTypeEnum.string)
+        cols = appendColumn(cols, 'ad_account_id', tableau.dataTypeEnum.string)
 
         return cols
     }

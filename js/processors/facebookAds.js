@@ -87,6 +87,7 @@ function processMetricFbAd(sbksData, data, item, depth, index, row, rows) {
             row['ad_account'] = sbksData.adaccounts.find(
                 element => element.id === row['campaign_id'].split('#')[0]
             )['name']
+            row['ad_account_id'] = row['campaign_id'].split('#')[0]
         } else {
             row[header.type.replace('.', '_')] = header.rows[index]
         }
