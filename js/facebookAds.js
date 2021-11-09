@@ -148,9 +148,9 @@ function renderFacebookAdsFiltersSorts() {
         <select class="form-select" name="objectives[]" id="objectives" multiple>
         </select>
     </div>
-    <div class="input-group mb-3" id="platform_container">
-        <label class="input-group-text">Platform</label>
-        <select class="form-select" name="platform[]" id="platform" multiple>
+    <div class="input-group mb-3" id="publisher_platform_container">
+        <label class="input-group-text">Publisher Platform</label>
+        <select class="form-select" name="publisher_platform[]" id="publisher_platform" multiple>
         </select>
     </div>
     <div class="input-group mb-3" id="placement_container">

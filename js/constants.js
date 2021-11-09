@@ -914,7 +914,7 @@ const facebookAdsFilter = {
         'MOBILE_APP_ENGAGEMENT',
         'OFFER_CLAIMS',
     ],
-    platform: [
+    publisher_platform: [
         'facebook',
         'instagram',
         'audience_network',

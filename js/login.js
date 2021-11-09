@@ -82,20 +82,18 @@ async function onLoginSubmit(e) {
     let today = moment()
     let monthAgo = today.subtract(30, 'days')
 
-
     let result = await fetchProfilesAndLabels()
     if (result === -1){
         $loginSpinner.hide()
         return
     }
+    await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
+    await setCampaigns(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
 
+    $login.hide()
     if (SBKS.data_source === 'facebook_ads') {
-        await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
-        await setCampaigns(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
-        $login.hide()
         renderAdAccounts()
     } else {
-        $login.hide()
         renderProfiles()
     }
 }
