@@ -138,6 +138,7 @@ let AGGREGATED_POST_METRICS = {
         'engagement_rate': engagement_rate,
         'insights_engagements': insights_engagements,
         'insights_impressions': engagement_rate,
+        "insights_impressions_engagement_rate": insights_engagements,
         'insights_post_clicks': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
         'insights_reach_engagement': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
         'insights_reach_per_content': engagement_rate,
@@ -163,6 +164,7 @@ let AGGREGATED_POST_METRICS = {
         'insights_completion_rate': common_agg_dimensions.concat(['media_type']),
         'insights_engagements': insights_engagements,
         'insights_impressions': engagement_rate,
+        "insights_impressions_engagement_rate": insights_engagements,
         'insights_reach_per_content': engagement_rate,
         'insights_story_exits': common_agg_dimensions.concat(['media_type']),
         'insights_story_taps_back': common_agg_dimensions.concat(['media_type']),
@@ -179,6 +181,7 @@ let AGGREGATED_POST_METRICS = {
         'engagement_rate': engagement_rate,
         'insights_engagements': insights_engagements,
         'insights_impressions': engagement_rate,
+        "insights_impressions_engagement_rate": insights_engagements,
         'insights_media_views': common_agg_dimensions.concat(['content_type', 'media_type', 'sentiment_type']),
         'insights_video_views': insights_video_views,
         'interactions': interactions,
@@ -201,6 +204,7 @@ let AGGREGATED_POST_METRICS = {
     },
     youtube: {
         'engagement_rate': engagement_rate,
+        'insights_engagements': insights_engagements,
         'insights_video_views': insights_video_views,
         'interactions': interactions,
         'interactions_per_1k_fans': engagement_rate,
@@ -257,7 +261,7 @@ let POSTS_SORT_FIELDS = {
     'insights_post_clicks': ['facebook'],
     'insights_reach_by_post_attribution.organic': ['facebook'],
     'insights_reach_by_post_attribution.paid': ['facebook'],
-    'insights_reach_engagement_rate': ['facebook'],
+    // 'insights_reach_engagement_rate': ['facebook'],
     'insights_video_view_time_average': ['facebook'],
     'insights_video_views_10s': ['facebook'],
     'insights_video_views_by_post_attribution.organic': ['facebook'],
@@ -298,7 +302,7 @@ let POSTS_FILTER_FIELDS = {
     },
     media_type: {
         facebook: ['status', 'link', 'video', 'note', 'poll', 'offer', 'photo', 'carousel'],
-        instagram: ['video', 'photo', 'carousel'],
+        instagram: ['video', 'photo', 'carousel', 'video_igtv'],
         youtube: ['video'],
         twitter: [],
         linkedin: ['status', 'link', 'video', 'photo', 'album', 'carousel'],
@@ -506,7 +510,7 @@ let POSTS_FIELDS = {
             viral: tableau.dataTypeEnum.int
         }
     },
-    insights_reach_engagement_rate: {networks: ['facebook'], type: tableau.dataTypeEnum.float},
+    insights_reach_engagement_rate: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.float},
     insights_reactions: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_reactions_by_type: {
         networks: ['facebook'],
