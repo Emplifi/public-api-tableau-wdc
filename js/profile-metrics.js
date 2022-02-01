@@ -12,14 +12,14 @@ async function onProfileMetricsSubmit(e) {
 
     SBKS.profile_metrics = {}
     SBKS.profile_dimensions = {}
-    let time_dimension = null
+    SBKS.time_dimension = null
     for (const item of $profileMetrics.serializeArray()) {
         if (item.name === 'daterange') {
             SBKS.date_range = parseDateRange(item.value)
             continue
         } else if (item.name === 'time') {
             if (item.value) {
-                time_dimension = item.value
+                SBKS.time_dimension = item.value
             }
             continue
         }
@@ -29,8 +29,8 @@ async function onProfileMetricsSubmit(e) {
         SBKS.profile_dimensions[network] = SBKS.profile_dimensions[network] || []
         SBKS.profile_metrics[network] = SBKS.profile_metrics[network] || []
 
-        if (time_dimension && !SBKS.profile_dimensions[network].includes(time_dimension)) {
-            SBKS.profile_dimensions[network].unshift(time_dimension)
+        if (SBKS.time_dimension && !SBKS.profile_dimensions[network].includes(SBKS.time_dimension)) {
+            SBKS.profile_dimensions[network].unshift(SBKS.time_dimension)
         }
 
         SBKS[type][network].push(item.value)

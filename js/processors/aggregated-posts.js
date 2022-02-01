@@ -13,9 +13,11 @@ async function getAggregatedPostData(sbksData) {
     let response = null, metricsResponse = null, profileResponse = null
     let dateRange = adjustDateRange(sbksData.date_range)
 
-    for (const [date_start, date_end] of Object.entries(splitDateRange(dateRange.start, dateRange.end, MAX_DAYS))) {
+    for (const [date_start, date_end] of Object.entries(
+        splitDateRange(dateRange.start, dateRange.end, selected_profiles)
+    )) {
         profileResponse = null
-        for (const profiles of chunkArray(selected_profiles, MAX_PROFILES)) {
+        for (const profiles of splitProfiles(dateRange.start, dateRange.end, selected_profiles)) {
             let requests = []
             for (const metric of sbksData.aggregated_post_metrics) {
                 requests.push(doApiCall(

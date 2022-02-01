@@ -130,7 +130,7 @@ function processMetricFbAd(sbksData, data, item, depth, index, row, rows) {
 function getFacebookAdsPayloads (dateRange, adAccounts, adCampaigns, fbAdsConfig) {
     const adAccountChunks = chunkArray(adAccounts, MAX_AD_ACCOUNTS)
     const adCampaignChunks = chunkArray(adCampaigns, MAX_AD_CAMPAIGNS)
-    const rangeChunks = splitDateRange(dateRange.start, dateRange.end, MAX_DAYS)
+    const rangeChunks = splitDateRange(dateRange.start, dateRange.end)
 
     const filters = buildFacebookFilters(fbAdsConfig.filters)
     const metrics = fbAdsConfig.conf.fields.map((field) => {return {metric: field}})

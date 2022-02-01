@@ -25,6 +25,7 @@ let SBKS = {
     profiles: {},
     adaccounts: [],
     campaigns: [],
+    date_range: {},
     profiles_selected: {},
     profile_labels: [],
     post_labels: [],

@@ -11,21 +11,49 @@ function chunkArray(myArray, chunk_size) {
     return tempArray
 }
 
-// Split date range into batches in order to avoid API limits
-function splitDateRange(start, end, days) {
-    const day_end = moment(end)
-    let dates = Array.from(moment.range(moment(start), day_end).by('days', {step: days}))
-    dates.push(day_end)
+// Split profiles into batches in order to avoid API limits
+function splitProfiles(start, end, profiles) {
+    const dayEnd = moment(end)
+    const dayStart = moment(start)
 
-    let ranges = {}, start_date = null
+    let maxProfiles = MAX_PROFILES
+    if (
+        profiles && profiles.length > 25
+        && dayEnd.diff(dayStart, 'months', true) > 3.0
+        && SBKS.time_dimension !== 'date.month'
+    ) {
+        maxProfiles = 25
+    }
+
+    return chunkArray(profiles, maxProfiles)
+}
+
+// Split date range into batches in order to avoid API limits
+function splitDateRange(start, end, profiles) {
+    const dayEnd = moment(end)
+    const dayStart = moment(start)
+
+    let days = MAX_DAYS
+    if (
+        profiles && profiles.length > 25
+        && dayEnd.diff(dayStart, 'months', true) > 3.0
+        && SBKS.time_dimension !== 'date.month'
+    ) {
+        days = 90
+    }
+
+    let dates = Array.from(moment.range(dayStart, dayEnd).by('days', {step: days}))
+    dates.push(dayEnd)
+
+    let ranges = {}, startDate = null
     for (const date of dates) {
-        if (!start_date) {
-            start_date = date
+        if (!startDate) {
+            startDate = date
             continue
         }
 
-        ranges[start_date.format('YYYY-MM-DD')] = date.format('YYYY-MM-DD')
-        start_date = date.add(1, 'day')
+        ranges[startDate.format('YYYY-MM-DD')] = date.format('YYYY-MM-DD')
+        startDate = date.add(1, 'day')
     }
 
     return ranges

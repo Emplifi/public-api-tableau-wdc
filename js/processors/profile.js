@@ -109,9 +109,11 @@ async function getProfileData(sbksData) {
     let rows = [], response = null, metricsResponse = null, profileResponse = null
     for (const [network, network_profiles] of Object.entries(sbksData.profiles_selected)) {
         response = null
-        for (const [date_start, date_end] of Object.entries(splitDateRange(dateRange.start, dateRange.end, MAX_DAYS))) {
+        for (const [date_start, date_end] of Object.entries(
+            splitDateRange(dateRange.start, dateRange.end, network_profiles)
+        )) {
             profileResponse = null
-            for (const profiles of chunkArray(Object.keys(network_profiles), MAX_PROFILES)) {
+            for (const profiles of splitProfiles(dateRange.start, dateRange.end, Object.keys(network_profiles))) {
                 let requests = []
                 for (const metrics of chunkArray(sbksData.profile_metrics[network] || [], MAX_METRICS)) {
                     let dimensions = (sbksData.profile_dimensions[network] || []).map(dimension => {
