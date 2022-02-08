@@ -470,7 +470,8 @@ let POSTS_FIELDS = {
     video_view_time: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
     video_views: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
     insights_engaged_users: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
-    insights_engagement: {networks: ['instagram'], type: tableau.dataTypeEnum.int},
+    insights_engagements: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
+    insights_engagement: {networks: ['facebook', 'instagram', 'youtube'], type: tableau.dataTypeEnum.int},
     insights_engagement_by_engagement_type: {
         networks: ['instagram'],
         subfields: {
@@ -480,6 +481,9 @@ let POSTS_FIELDS = {
         }
     },
     insights_impressions: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.int},
+    insights_impressions_engagement_rate: {
+        networks: ['facebook', 'instagram', 'twitter'], type: tableau.dataTypeEnum.float
+    },
     insights_impressions_by_post_attribution: {
         networks: ['facebook'],
         subfields: {
