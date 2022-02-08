@@ -69,15 +69,19 @@ async function onPostsSubmit(e) {
         posts_filters = processFormField(posts_filters, item)
     }
 
-    if (!showModalIfNotValid(country_metric_selected, gender_age_metric_selected, posts_networks['facebook']['fields'])) {
+    if (posts_networks['facebook'] && !showModalIfNotValid(
+        country_metric_selected,
+        gender_age_metric_selected,
+        posts_networks['facebook']['fields']
+    )) {
         $postsSpinner.hide()
         return
     }
-    
-    if (country_metric_selected) {
+
+    if (posts_networks['facebook'] && country_metric_selected) {
         posts_networks['facebook']['fields'].push('country')
     }
-    if (gender_age_metric_selected) {
+    if (posts_networks['facebook'] && gender_age_metric_selected) {
         posts_networks['facebook']['fields'].push('gender_age')
     }
     SBKS.posts_filters = posts_filters
