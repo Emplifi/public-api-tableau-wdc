@@ -126,14 +126,12 @@ function renderPosts() {
         let $self = $(this)
         let network = $self.data('sort')
 
-        let data = Object.keys(POSTS_SORT_FIELDS).map((key, index) => {
-            if (!POSTS_SORT_FIELDS[key].includes(network)) {
-                return undefined
-            }
-
-            let text = key.replace(/_/g, ' ').replace('.', ': ')
-            return {id: key, text: text.charAt(0).toUpperCase() + text.slice(1), selected: key === 'created_time'}
-        })
+        let data = Object.keys(POSTS_SORT_FIELDS)
+            .filter(key => POSTS_SORT_FIELDS[key].includes(network))
+            .map((key, index) => {
+                let text = key.replace(/_/g, ' ').replace('.', ': ')
+                return {id: key, text: text.charAt(0).toUpperCase() + text.slice(1), selected: key === 'created_time'}
+            })
 
         $self.select2({
             multiple: true,

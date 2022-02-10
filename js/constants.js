@@ -378,14 +378,17 @@ let POSTS_FIELDS = {
         type: tableau.dataTypeEnum.int
     },
     comments_sentiment: {
-        networks: ['facebook'],
+        networks: ['facebook', 'instagram'],
         subfields: {
             positive: tableau.dataTypeEnum.int,
             neutral: tableau.dataTypeEnum.int,
             negative: tableau.dataTypeEnum.int
         }
     },
-    content: {networks: ['facebook', 'linkedin', 'pinterest', 'vkontakte'], type: tableau.dataTypeEnum.string},
+    content: {
+        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte'],
+        type: tableau.dataTypeEnum.string
+    },
     content_type: {
         networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte'],
         type: tableau.dataTypeEnum.string
