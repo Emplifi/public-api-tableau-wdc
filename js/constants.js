@@ -471,7 +471,7 @@ let POSTS_FIELDS = {
     video_views: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
     insights_engaged_users: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_engagements: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
-    insights_engagement: {networks: ['facebook', 'instagram', 'youtube'], type: tableau.dataTypeEnum.int},
+    insights_engagement: {networks: ['instagram', 'youtube'], type: tableau.dataTypeEnum.int},
     insights_engagement_by_engagement_type: {
         networks: ['instagram'],
         subfields: {
