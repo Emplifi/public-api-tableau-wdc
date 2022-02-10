@@ -484,9 +484,7 @@ let POSTS_FIELDS = {
         }
     },
     insights_impressions: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.int},
-    insights_impressions_engagement_rate: {
-        networks: ['facebook', 'instagram', 'twitter'], type: tableau.dataTypeEnum.float
-    },
+    insights_impressions_engagement_rate: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.float},
     insights_impressions_by_post_attribution: {
         networks: ['facebook'],
         subfields: {
