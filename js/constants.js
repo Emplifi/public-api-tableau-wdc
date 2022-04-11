@@ -10,6 +10,8 @@ let SBKS = {
         pinterest: '3/pinterest/profile/posts',
         vkontakte: '3/vkontakte/profile/posts'
     },
+    communityUrl: '3/community/metrics',
+    communityPostsUrl: '3/community/posts',
     fb_ads_url: '3/facebook/ads/metrics',
     data_source: 'profile',
     networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
@@ -699,6 +701,88 @@ let POSTS_FIELDS = {
             organic: tableau.dataTypeEnum.int,
             paid: tableau.dataTypeEnum.int
         }
+    }
+}
+
+// COMMUNITY METRICS
+let COMMUNITY_DIMENSIONS = [
+    'community_type', 'date', 'post_label', 'profile', 'profile_label', 'resolve_status', 'sentiment'
+]
+let COMMUNITY_METRICS = {
+    'content_count': COMMUNITY_DIMENSIONS,
+    'message_count': COMMUNITY_DIMENSIONS,
+    'response_time': [
+        'community_type', 'post_label', 'profile', 'profile_label', 'resolve_status', 'response_date', 'sentiment'
+    ]
+}
+
+let COMMUNITY_POSTS_FIELDS = {
+    author: {
+        subfields: ID_NAME_URL
+    },
+    community_type: {
+        type: tableau.dataTypeEnum.string
+    },
+    content_type: {
+        type: tableau.dataTypeEnum.string
+    },
+    created_time: {
+        type: tableau.dataTypeEnum.datetime
+    },
+    id: {
+        type: tableau.dataTypeEnum.string
+    },
+    message: {
+        type: tableau.dataTypeEnum.string
+    },
+    messages: {
+        array: true,
+        subfields: {
+            id: tableau.dataTypeEnum.string,
+            message: tableau.dataTypeEnum.string,
+            created_time: tableau.dataTypeEnum.datetime,
+            origin: tableau.dataTypeEnum.string
+        }
+    },
+    origin: {
+        type: tableau.dataTypeEnum.string
+    },
+    parent_post: {
+        subfields: {
+            id: tableau.dataTypeEnum.string,
+            message: tableau.dataTypeEnum.string
+        }
+    },
+    platform: {
+        type: tableau.dataTypeEnum.string
+    },
+    post_labels: {
+        array: true,
+        subfields: {
+            id: tableau.dataTypeEnum.string,
+            name: tableau.dataTypeEnum.string
+        }
+    },
+    profileId: {
+        type: tableau.dataTypeEnum.string
+    },
+    response_first: {
+        subfields: {
+            id: tableau.dataTypeEnum.string,
+            message: tableau.dataTypeEnum.string,
+            response_time: tableau.dataTypeEnum.int,
+            response_time_real: tableau.dataTypeEnum.int,
+            account_id: tableau.dataTypeEnum.string,
+            user_id: tableau.dataTypeEnum.string,
+            first_name: tableau.dataTypeEnum.string,
+            last_name: tableau.dataTypeEnum.string
+        }
+    },
+    sentiment: {
+        type: tableau.dataTypeEnum.string
+    },
+    url: {
+        type: tableau.dataTypeEnum.string
     }
 }
 

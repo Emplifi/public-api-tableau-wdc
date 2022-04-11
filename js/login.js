@@ -115,11 +115,12 @@ $(function () {
         $('#login').show()
     })
 
-    $('#profileMetrics .back,#aggregatedPostMetrics .back, #posts .back').click(function () {
-        $('[id$=Spinner]').hide()
-        $('#profileMetrics, #aggregatedPostMetrics, #posts').hide()
-        $('#profiles').show()
-    })
+    $('#profileMetrics .back,#aggregatedPostMetrics .back,#posts .back,#communityPosts .back,#communityMetrics .back')
+        .click(function () {
+            $('[id$=Spinner]').hide()
+            $('#profileMetrics, #aggregatedPostMetrics, #posts, #communityPosts, #communityMetrics').hide()
+            $('#profiles').show()
+        })
 
     $('#facebook_ads .back').click(function () {
         $('[id$=Spinner]').hide()

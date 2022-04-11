@@ -97,7 +97,7 @@ function initProfileMetricsAndDimensions() {
     $('select[data-type=profile_metrics]').each(function () {
         let self = $(this)
         let network = self.data('network')
-        let insights = Object.entries(SBKS.profiles_selected[network]).find(v => v[1] ? v : null)
+        let insights = Object.entries(SBKS.profiles_selected[network] || {}).find(v => v[1] ? v : null)
 
         self.empty().select2({
             multiple: true,

@@ -2,8 +2,6 @@ let $postsDiv = $('#posts')
 let $posts = $('#postsForm')
 let $postsSorts = $('#postsSorts')
 let $postsSpinner = $('#postsSpinner').hide()
-let $advancedFilteringSwitch = $('#advancedFiltering')
-let $basicFiltering = $('#basicFiltering')
 
 $(function () {
     $posts.submit(onPostsSubmit)
@@ -93,14 +91,14 @@ async function onPostsSubmit(e) {
 }
 
 function showModalIfNotValid(countrySelected, genderAgeSelected, fields){
-    if (countrySelected && fields.length != 1){
+    if (countrySelected && fields.length !== 1){
         showModal(
             'Field combination not allowed',
             'The field: <code>Insights video view time by country</code> cannot be combined with other fields'
         )
         return false
     }
-    if (genderAgeSelected && fields.length != 1) {
+    if (genderAgeSelected && fields.length !== 1) {
         showModal(
             'Field combination not allowed',
             'The field: <code>Insights video view time by gender age v2</code> cannot be combined with other fields'
@@ -155,7 +153,7 @@ function renderPosts() {
     $('select[data-fields]').each(function () {
         let $self = $(this)
         let network = $self.data('fields')
-        let insights = Object.entries(SBKS.profiles_selected[network]).find(v => v[1] ? v : null)
+        let insights = Object.entries(SBKS.profiles_selected[network] || {}).find(v => v[1] ? v : null)
 
         let data = []
         for (const [field, config] of Object.entries(POSTS_FIELDS)) {

@@ -54,6 +54,31 @@ tableauConnector.getSchema = schemaCallback => {
                 }
             }
         }
+    } else if (sbksData.data_source === 'community') {
+        for (const metric of sbksData.community_metrics || []) {
+            cols = appendMetricColumn(metric, cols)
+        }
+
+        for (const dimension of sbksData.community_dimensions || []) {
+            cols = appendDimensionColumn(dimension, cols, sbksData)
+        }
+    } else if (sbksData.data_source === 'community_posts') {
+        for (const field of sbksData.community_posts_fields || []) {
+            let fieldObj = COMMUNITY_POSTS_FIELDS[field]
+            if (fieldObj.type) {
+                cols = appendColumn(cols, field, fieldObj.type)
+            } else if (fieldObj.array && fieldObj.subfields) {
+                for (let i = 1; i < MAX_POSTS_ARRAY_DEPTH; i++) {
+                    for (const [subField, type] of Object.entries(fieldObj.subfields)) {
+                        cols = appendColumn(cols, `${field}_${subField}_${i}`, type)
+                    }
+                }
+            } else if (fieldObj.subfields) {
+                for (const [subField, type] of Object.entries(fieldObj.subfields)) {
+                    cols = appendColumn(cols, `${field}_${subField}`, type)
+                }
+            }
+        }
     } else if (sbksData.data_source === 'facebook_ads') {
         for (const metric of sbksData.fb_ads.conf.fields) {
             appendMetricColumn(metric, cols)
@@ -78,6 +103,10 @@ tableauConnector.getData = async (table, doneCallback) => {
         table.appendRows(await getAggregatedPostData(sbksData))
     } else if (sbksData.data_source === 'posts') {
         table.appendRows(await getPostsData(sbksData))
+    } else if (sbksData.data_source === 'community') {
+        table.appendRows(await getCommunityData(sbksData))
+    } else if (sbksData.data_source === 'community_posts') {
+        table.appendRows(await getCommunityPostsData(sbksData))
     } else if (sbksData.data_source === 'facebook_ads') {
         table.appendRows(await getFbAdsData(sbksData))
     }
@@ -94,6 +123,10 @@ function invokeConnector(dataSource) {
         tableau.connectionName = 'Socialbakers social media aggregated post metrics'
     } else if (dataSource === 'posts') {
         tableau.connectionName = 'Socialbakers social media posts'
+    } else if (dataSource === 'community') {
+        tableau.connectionName = 'Socialbakers social media community metrics'
+    } else if (dataSource === 'community_posts') {
+        tableau.connectionName = 'Socialbakers social media community posts'
     } else if (dataSource === 'facebook_ads') {
         tableau.connectionName = 'Socialbakers social media facebook ads'
     }

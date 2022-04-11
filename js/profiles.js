@@ -53,8 +53,12 @@ async function onProfilesSubmit(e) {
         renderAggregatedPostMetrics()
     } else if (SBKS.data_source === 'posts') {
         renderPosts()
+    } else if (SBKS.data_source === 'community') {
+        renderCommunityMetrics()
+    } else if (SBKS.data_source === 'community_posts') {
+        renderCommunityPosts()
     } else if (SBKS.data_source === 'facebook_ads') {
-        renderFacebookAds() 
+        renderFacebookAds()
     }
 }
 
@@ -62,7 +66,7 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
-$(function() {
+$(function () {
     $('#daterangeAccounts').daterangepicker({
         opens: 'right'
     }, prepareFacebookAds);
@@ -75,11 +79,10 @@ $(function () {
         e.preventDefault()
         SBKS.data_source = $(this).data('source-type')
         $('#data_source').text($(this).text())
-        if(SBKS.data_source === 'facebook_ads') {
+        if (SBKS.data_source === 'facebook_ads') {
             $('#adAccountRange').css('visibility', 'visible')
             renderAdAccounts()
-        }
-        else {
+        } else {
             $('#adAccountRange').css('visibility', 'hidden')
             renderProfiles()
         }
@@ -210,15 +213,15 @@ async function setCampaigns(start, end) {
         },
     )
 
-	const campaignsFormatted = []
+    const campaignsFormatted = []
     if (response.success) {
-		const campaigns = response.header[0]
-		for (let i = 0; i < campaigns.fields.length; i++) {
-			campaignsFormatted.push({
-				id: campaigns.rows[i],
-				name: campaigns.fields[i].campaign_name,
-			})
-		}
+        const campaigns = response.header[0]
+        for (let i = 0; i < campaigns.fields.length; i++) {
+            campaignsFormatted.push({
+                id: campaigns.rows[i],
+                name: campaigns.fields[i].campaign_name,
+            })
+        }
     }
     SBKS.campaigns = campaignsFormatted
 }
@@ -249,9 +252,22 @@ function renderAdAccounts() {
 
 function renderProfiles() {
     $profilesTable.html('')
-
     for (const [network, profiles] of Object.entries(SBKS.profiles)) {
-        if (!profiles || !profiles.length || (SBKS.data_source === 'profile' && network === 'vkontakte')) {
+        if (SBKS.data_source === 'profile' && network === 'vkontakte') {
+            continue
+        }
+
+        let profilesToRender = []
+        for (const profile of profiles) {
+            if (
+                !SBKS.data_source.startsWith('community')
+                || SBKS.data_source.startsWith('community') && profile.community_enabled
+            ) {
+                profilesToRender.push(profile)
+            }
+        }
+
+        if (!profilesToRender.length) {
             continue
         }
 
@@ -271,9 +287,11 @@ function renderProfiles() {
             </thead>`)
         )
         let $tbody = $(`<tbody data-network="${network}">`)
-        for (const profile of profiles) {
+
+        for (const profile of profilesToRender) {
             renderProfile(network, profile, $tbody)
         }
+
         $profilesTable.append($tbody)
     }
 

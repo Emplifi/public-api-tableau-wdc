@@ -126,9 +126,16 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#" data-source-type="profile">Profile metrics</a></li>
-                <li><a class="dropdown-item" href="#" data-source-type="aggregated_post">Aggregated post metrics</a>
+                <li>
+                    <a class="dropdown-item" href="#" data-source-type="aggregated_post">Aggregated post metrics</a>
                 </li>
                 <li><a class="dropdown-item" href="#" data-source-type="posts">Post metrics</a></li>
+                <li>
+                    <a class="dropdown-item" href="#" data-source-type="community">Community metrics</a>
+                </li>
+                <!--<li>
+                    <a class="dropdown-item" href="#" data-source-type="community_posts">Community posts metrics</a>
+                </li>-->
                 <li><a class="dropdown-item" href="#" data-source-type="facebook_ads">Facebook Ads</a></li>
             </ul>
             <span id="adaccountsSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -260,6 +267,114 @@
     </form>
 </div>
 
+<!-- COMMUNITY METRICS -->
+<form id="communityMetrics" style="display:none">
+    <div class="input-group mb-3">
+        <label for="daterange" class="input-group-text">
+            <ion-icon name="calendar-outline"></ion-icon>
+        </label>
+        <input type="text" class="form-control" name="daterange" id="community_metrics_daterange">
+    </div>
+    <div class="input-group mb-3">
+        <label for="community_metrics_profile_labels" class="input-group-text">Profile Labels</label>
+        <select class="form-select" name="community_profile_labels[]" id="community_metrics_profile_labels" multiple></select>
+    </div>
+    <div class="input-group mb-3">
+        <label for="community_metrics_post_labels" class="input-group-text">Post Labels</label>
+        <select class="form-select" name="community_post_labels[]" id="community_metrics_post_labels" multiple></select>
+    </div>
+    <div class="input-group mb-3">
+        <label title="Time aggregation" for="community_metrics_timedimension" class="input-group-text">
+            Aggregation
+        </label>
+        <select class="form-select" name="time_dimension" id="community_metrics_timedimension">
+            <option value="">Lifetime</option>
+            <option value="hour">Hour</option>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="quarter">Quarter</option>
+            <option value="year">Year</option>
+        </select>
+    </div>
+
+    <div id="communityMetricsContent"></div>
+    <button type="button" title="Back" class="btn btn-secondary back">
+        <ion-icon name="arrow-back-outline" title="Back"></ion-icon>
+    </button>
+    <button type="submit" class="btn btn-primary">
+        <span id="communityMetricsSpinner" class="spinner-border spinner-border-sm" role="status"
+              aria-hidden="true"></span>
+        Submit
+    </button>
+</form>
+
+<!-- COMMUNITY POSTS -->
+<div id="communityPosts" style="display:none;">
+    <form id="communityPostsForm">
+        <div class="input-group mb-3">
+            <label for="community_post_daterange" class="input-group-text">
+                <ion-icon name="calendar-outline"></ion-icon>
+            </label>
+            <input type="text" class="form-control" name="daterange" id="community_post_daterange">
+        </div>
+        <div class="input-group mb-3">
+            <label for="community_post_labels" class="input-group-text">Post Labels</label>
+            <select class="form-select" name="post_labels[]" id="community_post_labels" multiple></select>
+        </div>
+        <div class="input-group mb-3" id="content_type_container">
+            <label for="content_type" class="input-group-text">Content Type</label>
+            <select class="form-select" name="content_type" id="content_type">
+                <option value=""></option>
+                <option value="comment">comment</option>
+                <option value="conversation">conversation</option>
+                <option value="post">post</option>
+                <option value="shared">shared</option>
+                <option value="story">story</option>
+            </select>
+        </div>
+        <div class="input-group mb-3" id="origin_container">
+            <label for="origin" class="input-group-text">Origin</label>
+            <select class="form-select" name="origin" id="origin">
+                <option value=""></option>
+                <option value="User-Generated Content">User-Generated Content</option>
+                <option value="Brand's Content">Brand's Content</option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-text">Fields</label>
+            <select class="form-select" data-fields="true" name="fields[]"></select>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <label class="input-group-text">Order by created date</label>
+                    <select class="form-select" name="order">
+                        <option value="asc">Ascending</option>
+                        <option value="desc" selected>Descending</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group mb-3">
+                    <label class="input-group-text">Limit</label>
+                    <input type="number" min="1" max="100" value="100" class="form-control" name="limit">
+                </div>
+            </div>
+        </div>
+
+        <button type="button" title="Back" class="btn btn-secondary back">
+            <ion-icon name="arrow-back-outline" title="Back"></ion-icon>
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <span id="communityPostsSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Submit
+        </button>
+    </form>
+</div>
+
 <!-- FACEBOOK ADS -->
 <div id="facebook_ads" style="display:none;">
     <form id="facebookAdsForm">
@@ -306,10 +421,14 @@
 <script src="js/profile-metrics.js" type="text/javascript"></script>
 <script src="js/aggregated-post-metrics.js" type="text/javascript"></script>
 <script src="js/posts.js" type="text/javascript"></script>
+<script src="js/community-metrics.js" type="text/javascript"></script>
+<script src="js/community-posts.js" type="text/javascript"></script>
 <script src="js/facebookAds.js" type="text/javascript"></script>
 <script src="js/processors/profile.js" type="text/javascript"></script>
 <script src="js/processors/aggregated-posts.js" type="text/javascript"></script>
 <script src="js/processors/posts.js" type="text/javascript"></script>
+<script src="js/processors/community.js" type="text/javascript"></script>
+<script src="js/processors/community-posts.js" type="text/javascript"></script>
 <script src="js/processors/facebookAds.js" type="text/javascript"></script>
 <script src="js/tableau-connector.js" type="text/javascript"></script>
 </body>
