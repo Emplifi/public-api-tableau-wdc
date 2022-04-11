@@ -147,7 +147,7 @@ let AGGREGATED_POST_METRICS = {
         'engagement_rate': engagement_rate,
         'insights_engagements': insights_engagements,
         'insights_impressions': engagement_rate,
-        "insights_impressions_engagement_rate": insights_engagements,
+        'insights_impressions_engagement_rate': insights_engagements,
         'insights_post_clicks': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
         'insights_reach_engagement': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
         'insights_reach_per_content': engagement_rate,
@@ -164,6 +164,7 @@ let AGGREGATED_POST_METRICS = {
         'user_posts_average_response_time': insights_engagements,
         'user_posts_responded': user_posts_responded,
         'user_posts_response_rate': insights_engagements,
+        'user_questions': insights_engagements,
         'user_questions_average_response_time': insights_engagements,
         'user_questions_responded': user_posts_responded,
         'user_questions_response_rate': engagement_rate
@@ -173,7 +174,9 @@ let AGGREGATED_POST_METRICS = {
         'insights_completion_rate': common_agg_dimensions.concat(['media_type']),
         'insights_engagements': insights_engagements,
         'insights_impressions': engagement_rate,
-        "insights_impressions_engagement_rate": insights_engagements,
+        'insights_impressions_engagement_rate': insights_engagements,
+        'insights_post_saves': insights_engagements,
+        'insights_reach_engagement': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
         'insights_reach_per_content': engagement_rate,
         'insights_story_exits': common_agg_dimensions.concat(['media_type']),
         'insights_story_taps_back': common_agg_dimensions.concat(['media_type']),
@@ -190,7 +193,7 @@ let AGGREGATED_POST_METRICS = {
         'engagement_rate': engagement_rate,
         'insights_engagements': insights_engagements,
         'insights_impressions': engagement_rate,
-        "insights_impressions_engagement_rate": insights_engagements,
+        'insights_impressions_engagement_rate': insights_engagements,
         'insights_media_views': common_agg_dimensions.concat(['content_type', 'media_type', 'sentiment_type']),
         'insights_video_views': insights_video_views,
         'interactions': interactions,
@@ -207,6 +210,7 @@ let AGGREGATED_POST_METRICS = {
         'user_posts_average_response_time': insights_engagements,
         'user_posts_responded': user_posts_responded,
         'user_posts_response_rate': insights_engagements,
+        'user_questions': insights_engagements,
         'user_questions_average_response_time': insights_engagements,
         'user_questions_responded': user_posts_responded,
         'user_questions_response_rate': engagement_rate
@@ -242,7 +246,8 @@ let AGGREGATED_POST_METRICS = {
         'interactions_per_1k_fans': engagement_rate,
         'number_of_comments': engagement_rate,
         'page_posts': engagement_rate,
-        'shares': shares
+        'shares': shares,
+        'user_questions': insights_engagements
     }
 }
 
