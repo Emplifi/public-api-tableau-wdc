@@ -39,7 +39,7 @@ async function onCommunityMetricsSubmit(e) {
 function renderCommunityMetrics() {
     $communityMetricsContent.html(`        
         <div class="input-group mb-3">
-            <label class="input-group-text">Metrics</label>
+            <label class="input-group-text">Metric</label>
             <select class="form-select" data-type="community_metrics" name="community_metrics[]"></select>
         </div>
         <div class="input-group mb-3">
@@ -76,7 +76,7 @@ function initCommunityMetricsAndDimensions() {
     })
 
     $('select[data-type=community_metrics]').each(function () {
-        $(this).empty().select2({multiple: true, data: Object.keys(COMMUNITY_METRICS)})
+        $(this).empty().select2({multiple: false, data: Object.keys(COMMUNITY_METRICS)})
     }).change(function () {
         let self = $(this)
         let dimensions = []

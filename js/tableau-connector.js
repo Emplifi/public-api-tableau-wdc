@@ -56,7 +56,7 @@ tableauConnector.getSchema = schemaCallback => {
         }
     } else if (sbksData.data_source === 'community') {
         for (const metric of sbksData.community_metrics || []) {
-            cols = appendMetricColumn(metric, cols)
+            cols = appendColumn(cols, metric, tableau.dataTypeEnum.int)
         }
 
         for (const dimension of sbksData.community_dimensions || []) {
