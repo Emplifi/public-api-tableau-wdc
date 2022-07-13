@@ -11,6 +11,7 @@ async function fetchProfilesAndLabels() {
 
     let profile_labels_request = callSbksApi('3/profile/labels', 'GET')
     let post_labels_request = callSbksApi('3/post/labels', 'GET')
+    let content_label_groups_request = callSbksApi('3/post/label-groups', 'GET')
     await Promise.all(Object.values(requests))
     for (const [network, coroutine] of Object.entries(requests)) {
         let response = {success: false}
@@ -29,14 +30,20 @@ async function fetchProfilesAndLabels() {
             return -1
         }
         if (response.profiles.length) {
-            response.profiles.sort((a, b) => {
-                return a.name.localeCompare(b.name)
-            })
-
             SBKS.profiles[network] = response.profiles
 
-            for(const profile of SBKS.profiles[network])
+            for(const profile of SBKS.profiles[network]) {
+                profile.name = profile.name || profile.id
                 SBKS.profile_name_by_id[profile.id] = profile.name
+                if (profile.community_enabled) {
+                    SBKS.community_enabled = true
+                    $('#communityMenuItem').css('display', 'block')
+                }
+            }
+
+            SBKS.profiles[network].sort((a, b) => {
+                return a.name.localeCompare(b.name)
+            })
 
             SBKS.profiles_with_no_labels[network] = SBKS.profiles[network]
                 .filter(profile => !profile.profile_labels.length)
@@ -62,6 +69,13 @@ async function fetchProfilesAndLabels() {
             })
             SBKS.post_labels = post_labels_response.data
         }
+        let content_label_groups_response = await content_label_groups_request
+        if (content_label_groups_response.success) {
+            content_label_groups_response.data.sort((a, b) => {
+                return a.name.localeCompare(b.name)
+            })
+            SBKS.content_label_groups = content_label_groups_response.data
+        }
     } catch (err) {
         showModal('Labels API error', err.toString())
     }
@@ -80,7 +94,7 @@ async function onLoginSubmit(e) {
     tableau.password = $('#secret').val()
 
     let today = moment()
-    let monthAgo = today.subtract(30, 'days')
+    let monthAgo = today.clone().subtract(30, 'days')
 
     let result = await fetchProfilesAndLabels()
     if (result === -1){

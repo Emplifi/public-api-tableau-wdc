@@ -27,3 +27,11 @@ the source code repository needs to be hosted on a public repository (github.com
 
 The `.gitlab.ci.yml` is already included that configures and automatically deploys `master` to gitlab pages
  - https://api-connectors.git.ccl/tableau-connector/socialbakers_api_wdc.html
+
+## Deploy Staging
+ - fork https://github.com/Socialbakers/public-api-tableau-wdc
+ - `git clone git@github.com:_YOUR_GITHUB_USERNAME_/public-api-tableau-wdc.git`
+ - `git remote add upstream git@git.ccl:api-connectors/tableau-connector.git`
+ - `git reset --hard upstream/_YOUR_FEATURE_BRANCH_NAME_`
+ - `git push -f`
+ - Open deployment: https://YOUR_GITHUB_USERNAME.github.io/public-api-tableau-wdc/socialbakers_api_wdc.html

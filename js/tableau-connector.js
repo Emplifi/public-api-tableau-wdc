@@ -2,7 +2,7 @@ const MAX_PROFILES = 100
 const MAX_AD_ACCOUNTS = 500
 const MAX_AD_CAMPAIGNS = 500
 const MAX_METRICS = 25
-const MAX_DAYS = 360
+const MAX_MONTHS = 12
 const MAX_POSTS_ARRAY_DEPTH = 10
 let tableauConnector = tableau.makeConnector()
 

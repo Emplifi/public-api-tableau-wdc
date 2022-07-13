@@ -73,6 +73,7 @@ $(function () {
 });
 
 $(function () {
+    let adAccounts = false
     $profiles.submit(onProfilesSubmit)
 
     $('[data-source-type]').click(function (e) {
@@ -82,6 +83,7 @@ $(function () {
         if (SBKS.data_source === 'facebook_ads') {
             $('#adAccountRange').css('visibility', 'visible')
             renderAdAccounts()
+            adAccounts = true
         } else {
             $('#adAccountRange').css('visibility', 'hidden')
             renderProfiles()
@@ -114,7 +116,7 @@ $(function () {
     })
 
     $(document).on('keyup', '#search', function () {
-        filterProfiles($(this).val())
+        filterProfiles($(this).val(), adAccounts)
 
         if (!$('tr[data-hidden=0]').length) {
             let self = $(this)
@@ -143,8 +145,8 @@ $(function () {
     })
 })
 
-function filterProfiles(search) {
-    for (const [network, profiles] of Object.entries(SBKS.profiles)) {
+function filterProfiles(search, adAccounts) {
+    for (const [network, profiles] of Object.entries(adAccounts ? { facebook: SBKS.adaccounts } : SBKS.profiles)) {
         if (!profiles || !profiles.length) {
             return
         }
@@ -227,20 +229,19 @@ async function setCampaigns(start, end) {
 }
 
 function renderAdAccounts() {
-    $profilesTable.html('')
-    $profilesTable.append($(`
-            <thead data-network="facebook">
-                <tr>
-                    <th style="width: 30px" title="Select all">
-                        <input class="form-check-input" type="checkbox" data-select-multiple="facebook_adaccount" />
-                    </th>
-                    <th>
-                        <ion-icon style="vertical-align: sub;font-size: 22px;"
-                            title="facebook" name="${SBKS.icons["facebook"]}"></ion-icon> Facebook
-                    </th>
-                    <th>ID</th>
-                </tr>
-            </thead>`)
+    $profilesTable.html($(`
+        <thead data-network="facebook">
+            <tr>
+                <th style="width: 30px" title="Select all">
+                    <input class="form-check-input" type="checkbox" data-select-multiple="facebook_adaccount" />
+                </th>
+                <th>
+                    <ion-icon style="vertical-align: sub;font-size: 22px;"
+                        title="facebook" name="${SBKS.icons["facebook"]}"></ion-icon> Facebook
+                </th>
+                <th>ID</th>
+            </tr>
+        </thead>`)
     )
     let $tbody = $(`<tbody data-network="facebook">`)
     for (const account of SBKS.adaccounts) {
@@ -253,9 +254,12 @@ function renderAdAccounts() {
 function renderProfiles() {
     $profilesTable.html('')
     for (const [network, profiles] of Object.entries(SBKS.profiles)) {
-        if (SBKS.data_source === 'profile' && network === 'vkontakte') {
+        if (network === 'vkontakte' || network === 'tiktok') { // VKontakte is disabled
             continue
         }
+        // if (SBKS.data_source === 'profile' && network === 'vkontakte') {
+        //     continue
+        // }
 
         let profilesToRender = []
         for (const profile of profiles) {
@@ -302,7 +306,7 @@ function renderProfile(network, profile, $tbody) {
     $tbody.append(
         $(`<tr data-profile-id="${profile.id}" data-hidden="0">
                <td><input class="form-check-input" type="checkbox" name="${network}_profile" value="${profile.id}"></td>
-               <td><img src="${profile.picture}" alt="${profile.name}"/> ${profile.name}</td>
+               <td><img width="32" src="${profile.picture || ''}" alt="${profile.name}"/> ${profile.name}</td>
                <td>${profile.id}</td>
                <td colspan="2">
                    <input class="form-check-input" style="display: ${profile.insights_enabled ? 'block' : 'none'}" 

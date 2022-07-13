@@ -8,13 +8,14 @@ let SBKS = {
         twitter: '3/twitter/profile/tweets',
         linkedin: '3/linkedin/profile/posts',
         pinterest: '3/pinterest/profile/posts',
-        vkontakte: '3/vkontakte/profile/posts'
+        vkontakte: '3/vkontakte/profile/posts',
+        tiktok: '3/tiktok/profile/posts'
     },
     communityUrl: '3/community/metrics',
     communityPostsUrl: '3/community/posts',
     fb_ads_url: '3/facebook/ads/metrics',
     data_source: 'profile',
-    networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
+    networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
     icons: {
         facebook: 'logo-facebook',
         instagram: 'logo-instagram',
@@ -22,7 +23,8 @@ let SBKS = {
         youtube: 'logo-youtube',
         linkedin: 'logo-linkedin',
         pinterest: 'logo-pinterest',
-        vk: 'logo-vk'
+        vk: 'logo-vk',
+        tiktok: 'logo-tiktok'
     },
     profiles: {},
     adaccounts: [],
@@ -30,6 +32,7 @@ let SBKS = {
     date_range: {},
     profiles_selected: {},
     profile_labels: [],
+    content_label_groups: [],
     post_labels: [],
     profile_labels_selected: [],
     profile_metrics: {},
@@ -46,6 +49,7 @@ let SBKS = {
         sorts: {},
         conf: {},
     },
+    community_enabled: false
 }
 
 // PROFILES
@@ -130,6 +134,13 @@ let PROFILE_METRICS = {
         'following_change': PROFILE_COMMON_DIMENSIONS,
         'following_lifetime': PROFILE_COMMON_DIMENSIONS,
         'pins_lifetime': PROFILE_COMMON_DIMENSIONS
+    },
+    tiktok: {
+        'insights_engagements': PROFILE_COMMON_DIMENSIONS,
+        'insights_fans_change': PROFILE_COMMON_DIMENSIONS,
+        'insights_fans_lifetime': PROFILE_COMMON_DIMENSIONS,
+        'insights_profile_views': PROFILE_COMMON_DIMENSIONS,
+        'insights_video_views': PROFILE_COMMON_DIMENSIONS
     }
 }
 
@@ -250,6 +261,17 @@ let AGGREGATED_POST_METRICS = {
         'page_posts': engagement_rate,
         'shares': shares,
         'user_questions': insights_engagements
+    },
+    tiktok: {
+        'insights_avg_time_watched': common_agg_dimensions,
+        'insights_completion_rate': common_agg_dimensions.concat(['media_type']),
+        'insights_engagements': insights_engagements,
+        'insights_reach_engagement': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
+        'insights_reach_per_content': engagement_rate,
+        'insights_video_views': insights_video_views,
+        'insights_view_time': common_agg_dimensions,
+        'number_of_comments': engagement_rate,
+        'page_posts': engagement_rate
     }
 }
 
@@ -262,7 +284,7 @@ let ID_NAME_URL = {
 
 let POSTS_SORT_FIELDS = {
     'comments': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
-    'created_time': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
+    'created_time': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
     'interactions': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
     'interactions_per_1k_fans': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
     'reactions': ['facebook', 'linkedin'],
@@ -273,10 +295,17 @@ let POSTS_SORT_FIELDS = {
     'reactions_by_type.sorry': ['facebook'],
     'reactions_by_type.wow': ['facebook'],
     'shares': ['facebook', 'pinterest', 'vkontakte'],
+    'insights_avg_time_watched': ['tiktok'],
+    'insights_comments': ['tiktok'],
+    'insights_completion_rate': ['tiktok'],
     'insights_engaged_users': ['facebook'],
+    'insights_engagements': ['tiktok'],
+    'insights_likes': ['tiktok'],
     'insights_post_clicks': ['facebook'],
     'insights_reach_by_post_attribution.organic': ['facebook'],
     'insights_reach_by_post_attribution.paid': ['facebook'],
+    'insights_reach_engagement_rate': ['tiktok'],
+    'insights_shares': ['tiktok'],
     // 'insights_reach_engagement_rate': ['facebook'],
     'insights_video_view_time_average': ['facebook'],
     'insights_video_views_10s': ['facebook'],
@@ -290,9 +319,10 @@ let POSTS_SORT_FIELDS = {
     'insights_story_exits': ['instagram'],
     'insights_story_taps_back': ['instagram'],
     'insights_story_taps_forward': ['instagram'],
-    'insights_video_views': ['instagram'],
+    'insights_video_views': ['instagram', 'tiktok'],
+    'insights_view_time': ['tiktok'],
     'dislikes': ['youtube'],
-    'duration': ['youtube'],
+    'duration': ['youtube', 'tiktok'],
     'video_view_time': ['youtube'],
     'video_views': ['youtube']
 }
@@ -305,7 +335,8 @@ let POSTS_FILTER_FIELDS = {
         youtube: [],
         linkedin: [],
         pinterest: ['post', 'shared'],
-        vkontakte: []
+        vkontakte: [],
+        tiktok: []
     },
     grade: {
         facebook: ['A+', 'A', 'B', 'C', 'D'],
@@ -314,7 +345,8 @@ let POSTS_FILTER_FIELDS = {
         twitter: [],
         linkedin: [],
         pinterest: [],
-        vkontakte: []
+        vkontakte: [],
+        tiktok: []
     },
     media_type: {
         facebook: ['status', 'link', 'video', 'note', 'poll', 'offer', 'photo', 'carousel'],
@@ -323,7 +355,8 @@ let POSTS_FILTER_FIELDS = {
         twitter: [],
         linkedin: ['status', 'link', 'video', 'photo', 'album', 'carousel'],
         pinterest: [],
-        vkontakte: ['status', 'photo', 'video', 'link', 'note', 'poll', 'album']
+        vkontakte: ['status', 'photo', 'video', 'link', 'note', 'poll', 'album'],
+        tiktok: []
     },
     origin: {
         facebook: ['User-Generated Content', 'Brand\'s Content'],
@@ -332,7 +365,8 @@ let POSTS_FILTER_FIELDS = {
         twitter: ['User-Generated Content', 'Brand\'s Content'],
         linkedin: [],
         pinterest: [],
-        vkontakte: ['User-Generated Content', 'Brand\'s Content']
+        vkontakte: ['User-Generated Content', 'Brand\'s Content'],
+        tiktok: []
     },
     post_attribution: {
         facebook: ['organic', 'paid'],
@@ -341,7 +375,8 @@ let POSTS_FILTER_FIELDS = {
         twitter: [],
         linkedin: [],
         pinterest: [],
-        vkontakte: []
+        vkontakte: [],
+        tiktok: []
     },
     video_type: {
         facebook: ['crosspost', 'crosspostable', 'live', 'shared'],
@@ -350,7 +385,8 @@ let POSTS_FILTER_FIELDS = {
         twitter: [],
         linkedin: [],
         pinterest: [],
-        vkontakte: []
+        vkontakte: [],
+        tiktok: []
     },
     post_labels: { // From API
         facebook: [],
@@ -359,13 +395,14 @@ let POSTS_FILTER_FIELDS = {
         twitter: [],
         linkedin: [],
         pinterest: [],
-        vkontakte: []
+        vkontakte: [],
+        tiktok: []
     }
 }
 
 let POSTS_FIELDS = {
     attachments: {
-        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte'],
+        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
         array: true,
         subfields: {
             title: tableau.dataTypeEnum.string,
@@ -397,21 +434,21 @@ let POSTS_FIELDS = {
         type: tableau.dataTypeEnum.string
     },
     content_type: {
-        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte'],
+        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
         type: tableau.dataTypeEnum.string
     },
     created_time: {
-        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
+        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
         type: tableau.dataTypeEnum.datetime
     },
     deleted: {networks: ['facebook'], type: tableau.dataTypeEnum.bool},
     description: {networks: ['youtube'], type: tableau.dataTypeEnum.string},
     dislikes: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
-    duration: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
+    duration: {networks: ['youtube', 'tiktok'], type: tableau.dataTypeEnum.int},
     grade: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.string},
     hidden: {networks: ['facebook'], type: tableau.dataTypeEnum.bool},
     id: {
-        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte'],
+        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
         type: tableau.dataTypeEnum.string
     },
     interactions: {
@@ -422,11 +459,14 @@ let POSTS_FIELDS = {
         networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
         type: tableau.dataTypeEnum.float
     },
+    link: {networks: ['tiktok'], type: tableau.dataTypeEnum.string},
     likes: {networks: ['instagram', 'youtube', 'vkontakte'], type: tableau.dataTypeEnum.int},
+    media: {networks: ['tiktok'], type: tableau.dataTypeEnum.string},
     media_type: {
         networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
         type: tableau.dataTypeEnum.string
     },
+    message: {networks: ['tiktok'], type: tableau.dataTypeEnum.string},
     origin: {networks: ['facebook', 'twitter', 'vkontakte'], type: tableau.dataTypeEnum.string},
     page: {networks: ['facebook', 'instagram', 'linkedin', 'vkontakte'], subfields: ID_NAME_URL},
     post_attribution: {
@@ -437,7 +477,7 @@ let POSTS_FIELDS = {
         }
     },
     post_labels: {
-        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte'],
+        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
         array: true,
         subfields: {
             id: tableau.dataTypeEnum.string,
@@ -479,8 +519,28 @@ let POSTS_FIELDS = {
     },
     video_view_time: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
     video_views: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
+    insights_avg_time_watched: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_comments: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_completion_rate: {networks: ['tiktok'], type: tableau.dataTypeEnum.float},
+    insights_impressions_by_traffic_source: {
+        networks: ['tiktok'],
+        subfields: {
+            impression_source: tableau.dataTypeEnum.string,
+            percentage: tableau.dataTypeEnum.float
+        }
+    },
+    insights_likes: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_shares: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_view_time: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_viewers_by_country: {
+        networks: ['tiktok'],
+        subfields: {
+            country: tableau.dataTypeEnum.string,
+            percentage: tableau.dataTypeEnum.float
+        }
+    },
     insights_engaged_users: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
-    insights_engagements: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
+    insights_engagements: {networks: ['facebook', 'tiktok'], type: tableau.dataTypeEnum.int},
     insights_engagement: {networks: ['instagram', 'youtube'], type: tableau.dataTypeEnum.int},
     insights_engagement_by_engagement_type: {
         networks: ['instagram'],
@@ -522,7 +582,7 @@ let POSTS_FIELDS = {
         }
     },
     insights_post_clicks_unique: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
-    insights_reach: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.int},
+    insights_reach: {networks: ['facebook', 'instagram', 'tiktok'], type: tableau.dataTypeEnum.int},
     insights_reach_by_post_attribution: {
         networks: ['facebook'],
         subfields: {
@@ -531,7 +591,7 @@ let POSTS_FIELDS = {
             viral: tableau.dataTypeEnum.int
         }
     },
-    insights_reach_engagement_rate: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.float},
+    insights_reach_engagement_rate: {networks: ['facebook', 'instagram', 'tiktok'], type: tableau.dataTypeEnum.float},
     insights_reactions: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_reactions_by_type: {
         networks: ['facebook'],
@@ -608,8 +668,7 @@ let POSTS_FIELDS = {
             "F_18_24": tableau.dataTypeEnum.int,
         }
     },
-
-    insights_video_views: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.int},
+    insights_video_views: {networks: ['facebook', 'instagram', 'tiktok'], type: tableau.dataTypeEnum.int},
     insights_video_views_10s: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_video_views_10s_by_play_type: {
         networks: ['facebook'],
@@ -866,7 +925,7 @@ const facebookMetrics = [
     'omni_search',
     'store_visit_with_dwell',
     'subscribe',
-    'omni_tutorial_completion',
+    'omni_tutorial_completion'
 ]
 
 const facebookDimensions = [
@@ -881,7 +940,7 @@ const facebookDimensions = [
     'gender',
     'objective',
     'placement',
-    'publisher_platform',
+    'publisher_platform'
 ]
 
 // FACEBOOK ADS
@@ -977,7 +1036,7 @@ const facebookAdsSort = [
     'omni_search',
     'store_visit_with_dwell',
     'subscribe',
-    'omni_tutorial_completion',
+    'omni_tutorial_completion'
 ]
 
 const facebookAdsFilter = {
@@ -989,7 +1048,7 @@ const facebookAdsFilter = {
         '35-44',
         '45-54',
         '55-64',
-        '65+',
+        '65+'
     ],
     objectives: [
         'CONVERSIONS',
@@ -1008,12 +1067,18 @@ const facebookAdsFilter = {
         'MOBILE_APP_INSTALLS',
         'MOBILE_APP_ENGAGEMENT',
         'OFFER_CLAIMS',
+        'OUTCOME_AWARENESS',
+        'OUTCOME_ENGAGEMENT',
+        'OUTCOME_LEADS',
+        'OUTCOME_SALES',
+        'OUTCOME_TRAFFIC',
+        'OUTCOME_APP_PROMOTION'
     ],
     publisher_platform: [
         'facebook',
         'instagram',
         'audience_network',
-        'messenger',
+        'messenger'
     ],
     placement: [
         'feed',
@@ -1033,7 +1098,7 @@ const facebookAdsFilter = {
         'facebook_groups_feed',
         'instagram_igtv',
         'instagram_reels',
-        'all_placements',
+        'all_placements'
     ],
     country: [
         {
@@ -2019,8 +2084,8 @@ const facebookAdsFilter = {
         {
             'name': 'Zimbabwe',
             'country_code': 'ZW',
-        },
-    ],
+        }
+    ]
 }
 
 const FACEBOOK_ADS_DIMENSION_FORBIDDEN_COMBINATIONS = {
@@ -2031,5 +2096,5 @@ const FACEBOOK_ADS_DIMENSION_FORBIDDEN_COMBINATIONS = {
     'country': ['age', 'gender', 'country', 'placement', 'publisher_platform'],
     'objective': ['objective'],
     'placement': ['age', 'gender', 'country', 'placement', 'publisher_platform'],
-    'publisher_platform': ['age', 'gender', 'country', 'publisher_platform'],
+    'publisher_platform': ['age', 'gender', 'country', 'publisher_platform']
 }

@@ -25,7 +25,7 @@ function prepareCommunityPostsParams(sbksData, params) {
     return params
 }
 
-function processPost(post) {
+function processCommunityPost(post) {
     let row = {}
     for (let [field, value] of Object.entries(post)) {
         let fieldObj = COMMUNITY_POSTS_FIELDS[field]
@@ -88,7 +88,7 @@ async function getCommunityPostsData(sbksData) {
     }
 
     for (const post of apiResponse.data.posts) {
-        rows.push(processPost(post))
+        rows.push(processCommunityPost(post))
     }
 
     return rows

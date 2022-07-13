@@ -143,6 +143,23 @@ function renderPosts() {
         })
     })
 
+    $('#content_label_groups').select2({
+        multiple: true,
+        data: SBKS.content_label_groups.map(label => {
+            return {id: label.id, text: label.name}
+        })
+    }).change(function () {
+        let self = $(this)
+
+        for (const label_group_id of self.val()) {
+            let label_group = SBKS.content_label_groups.find(lg => lg.id === label_group_id)
+
+            if (label_group) {
+                $('#post_labels').val(($('#post_labels').val() || []).concat(label_group.label_ids || [])).change()
+            }
+        }
+    }).trigger('change')
+
     $('#post_labels').select2({
         multiple: true,
         data: SBKS.post_labels.map(label => {

@@ -46,11 +46,13 @@ function mergeHeader(a, b, match) {
         if (match.indexOf(aHeader.type) !== -1) {
             for (const bHeader of b.header) {
                 if (match.indexOf(bHeader.type) !== -1) {
-                    for (const row of bHeader.rows)
-                        if(match[0] === "profile" && !a.header[i].rows.find(x => x.id === row.id))
+                    for (const row of bHeader.rows) {
+                        if (match[0] === "profile" && !a.header[i].rows.find(x => x.id === row.id)) {
                             a.header[i].rows.push(row)
-                        else if(match[0] !== "profile")
+                        } else if (match[0] !== "profile") {
                             a.header[i].rows.push(row)
+                        }
+                    }
                 }
             }
         }
@@ -66,8 +68,10 @@ function processMetricItem(sbksData, data, item, depth, index, row, rows) {
             if (typeof header.rows[index] === 'string') {
                 row['profile_id'] = header.rows[index]
             } else {
-                row['profile_id'] = header.rows[index].id
-                row['platform'] = header.rows[index].platform
+                if (header.rows[index]) {
+                    row['profile_id'] = header.rows[index].id
+                    row['platform'] = header.rows[index].platform
+                }
             }
             let profile = sbksData.profiles[row.platform].find(p => p.id === row['profile_id'])
             row['profile'] = profile ? profile.name : null
@@ -110,7 +114,7 @@ async function getProfileData(sbksData) {
     for (const [network, network_profiles] of Object.entries(sbksData.profiles_selected)) {
         response = null
         for (const [date_start, date_end] of Object.entries(
-            splitDateRange(dateRange.start, dateRange.end, network_profiles)
+            splitDateRange(dateRange.start, dateRange.end, Object.keys(network_profiles))
         )) {
             profileResponse = null
             for (const profiles of splitProfiles(dateRange.start, dateRange.end, Object.keys(network_profiles))) {

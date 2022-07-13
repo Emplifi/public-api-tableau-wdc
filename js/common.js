@@ -15,12 +15,13 @@ function chunkArray(myArray, chunk_size) {
 function splitProfiles(start, end, profiles) {
     const dayEnd = moment(end)
     const dayStart = moment(start)
+    const sbksData = JSON.parse(tableau.connectionData)
 
     let maxProfiles = MAX_PROFILES
     if (
         profiles && profiles.length > 25
         && dayEnd.diff(dayStart, 'months', true) > 3.0
-        && SBKS.time_dimension !== 'date.month'
+        && sbksData.time_dimension !== 'date.month'
     ) {
         maxProfiles = 25
     }
@@ -32,17 +33,18 @@ function splitProfiles(start, end, profiles) {
 function splitDateRange(start, end, profiles) {
     const dayEnd = moment(end)
     const dayStart = moment(start)
+    const sbksData = JSON.parse(tableau.connectionData)
 
-    let days = MAX_DAYS
+    let months = MAX_MONTHS
     if (
         profiles && profiles.length > 25
         && dayEnd.diff(dayStart, 'months', true) > 3.0
-        && SBKS.time_dimension !== 'date.month'
+        && sbksData.time_dimension !== 'date.month'
     ) {
-        days = 90
+        months = 3
     }
 
-    let dates = Array.from(moment.range(dayStart, dayEnd).by('days', {step: days}))
+    let dates = Array.from(moment.range(dayStart, dayEnd).by('months', {step: months}))
     dates.push(dayEnd)
 
     let ranges = {}, startDate = null
