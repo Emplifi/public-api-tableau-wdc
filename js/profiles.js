@@ -116,12 +116,15 @@ $(function () {
     })
 
     $(document).on('keyup', '#search', function () {
-        filterProfiles($(this).val(), adAccounts)
+        let self = $(this)
+        let value = self.val()
+        filterProfiles(value, adAccounts)
 
         if (!$('tr[data-hidden=0]').length) {
-            let self = $(this)
-            let value = self.val()
-            self.val(value.substring(0, value.length - 1)).keyup()
+            newValue = value.substring(0, value.length - 1)
+            if (newValue !== self.val()) {
+                self.val(newValue).keyup()
+            }
         }
     })
 
@@ -148,7 +151,7 @@ $(function () {
 function filterProfiles(search, adAccounts) {
     for (const [network, profiles] of Object.entries(adAccounts ? { facebook: SBKS.adaccounts } : SBKS.profiles)) {
         if (!profiles || !profiles.length) {
-            return
+            continue
         }
 
         let hasProfiles = false
