@@ -59,20 +59,15 @@ async function onProfilesSubmit(e) {
         renderCommunityPosts()
     } else if (SBKS.data_source === 'facebook_ads') {
         renderFacebookAds()
+    } else if (SBKS.data_source === 'facebook_ads_ad') {
+        renderFacebookAdsAd()
     }
 }
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
-})
+    $('#daterangeAccounts').daterangepicker({opens: 'right'}, prepareFacebookAds);
 
-$(function () {
-    $('#daterangeAccounts').daterangepicker({
-        opens: 'right'
-    }, prepareFacebookAds);
-});
-
-$(function () {
     let adAccounts = false
     $profiles.submit(onProfilesSubmit)
 
@@ -80,12 +75,12 @@ $(function () {
         e.preventDefault()
         SBKS.data_source = $(this).data('source-type')
         $('#data_source').text($(this).text())
-        if (SBKS.data_source === 'facebook_ads') {
-            $('#adAccountRange').css('visibility', 'visible')
+        if (SBKS.data_source === 'facebook_ads' || SBKS.data_source === 'facebook_ads_ad') {
+            $('#adAccountRange').css('display', 'block')
             renderAdAccounts()
             adAccounts = true
         } else {
-            $('#adAccountRange').css('visibility', 'hidden')
+            $('#adAccountRange').css('display', 'none')
             renderProfiles()
         }
         $('#search').keyup()
@@ -208,7 +203,7 @@ async function setCampaigns(start, end) {
                 {
                     'type': 'campaign',
                     'fields': [
-                        'campaign_name',
+                        'campaign_name', 'ad_account_name'
                     ],
                     'group': {
                         'limit': 2000,
@@ -225,6 +220,7 @@ async function setCampaigns(start, end) {
             campaignsFormatted.push({
                 id: campaigns.rows[i],
                 name: campaigns.fields[i].campaign_name,
+                ad_account_id: (SBKS.adaccounts.find(aa => aa.name === campaigns.fields[i].ad_account_name) || {}).id
             })
         }
     }

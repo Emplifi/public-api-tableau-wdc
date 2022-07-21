@@ -14,6 +14,7 @@ let SBKS = {
     communityUrl: '3/community/metrics',
     communityPostsUrl: '3/community/posts',
     fb_ads_url: '3/facebook/ads/metrics',
+    fb_ads_ad_url: '3/facebook/ads/posts',
     data_source: 'profile',
     networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
     icons: {
@@ -49,6 +50,7 @@ let SBKS = {
         sorts: {},
         conf: {},
     },
+    fb_ads_ad_params: {},
     community_enabled: false
 }
 
@@ -846,7 +848,7 @@ let COMMUNITY_POSTS_FIELDS = {
 }
 
 
-const facebookMetrics = [
+const facebookAdsMetrics = [
     'impressions',
     'spend',
     'clicks',
@@ -928,7 +930,7 @@ const facebookMetrics = [
     'omni_tutorial_completion'
 ]
 
-const facebookDimensions = [
+const facebookAdsDimensions = [
     'ad_account',
     'age',
     'campaign',
@@ -942,6 +944,61 @@ const facebookDimensions = [
     'placement',
     'publisher_platform'
 ]
+
+const FACEBOOK_ADS_AD_FIELDS = {
+    ad_account_id: { type: tableau.dataTypeEnum.string },
+    ad_account_name: { type: tableau.dataTypeEnum.string },
+    ad_campaign_id: { type: tableau.dataTypeEnum.string },
+    ad_campaign_name: { type: tableau.dataTypeEnum.string },
+    ad_set_id: { type: tableau.dataTypeEnum.string },
+    ad_set_name: { type: tableau.dataTypeEnum.string },
+    ad_type: { type: tableau.dataTypeEnum.string },
+    attachments: {
+        array: true,
+        subfields: {
+            title: tableau.dataTypeEnum.string,
+            description: tableau.dataTypeEnum.string,
+            type: tableau.dataTypeEnum.string,
+            url: tableau.dataTypeEnum.string,
+            image_url: tableau.dataTypeEnum.string,
+            link: tableau.dataTypeEnum.string,
+            call_to_action: tableau.dataTypeEnum.string
+        }
+    },
+    clicks: { type: tableau.dataTypeEnum.int },
+    cost_per_post_engagement: { type: tableau.dataTypeEnum.float },
+    cpc: { type: tableau.dataTypeEnum.float },
+    cpm: { type: tableau.dataTypeEnum.float },
+    created_time: { type: tableau.dataTypeEnum.datetime },
+    ctr: { type: tableau.dataTypeEnum.float },
+    engagement_rate: { type: tableau.dataTypeEnum.float },
+    id: { type: tableau.dataTypeEnum.string },
+    impressions: { type: tableau.dataTypeEnum.int },
+    inline_link_clicks: { type: tableau.dataTypeEnum.int },
+    interaction_count: { type: tableau.dataTypeEnum.int },
+    landing_page_view: { type: tableau.dataTypeEnum.int },
+    lead: { type: tableau.dataTypeEnum.int },
+    message: { type: tableau.dataTypeEnum.string },
+    name: { type: tableau.dataTypeEnum.string },
+    objective: { type: tableau.dataTypeEnum.string },
+    placements: {
+        subfields: {
+            instagram: tableau.dataTypeEnum.string,
+            facebook: tableau.dataTypeEnum.string
+        }
+    },
+    post_engagement: { type: tableau.dataTypeEnum.int },
+    post_labels: {
+        array: true,
+        subfields: {
+            id: tableau.dataTypeEnum.string,
+            name: tableau.dataTypeEnum.string
+        }
+    },
+    spend: { type: tableau.dataTypeEnum.float },
+    status: { type: tableau.dataTypeEnum.string },
+    video_play_view: { type: tableau.dataTypeEnum.int }
+}
 
 // FACEBOOK ADS
 const facebookAdsSort = [

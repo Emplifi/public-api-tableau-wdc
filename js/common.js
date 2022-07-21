@@ -131,4 +131,6 @@ $(function () {
                 .endOf('year')]
         }
     })
+
+    $('#daterangeAccounts').daterangepicker({startDate: moment().subtract(1, 'years'),})
 })

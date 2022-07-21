@@ -138,7 +138,7 @@ function getFacebookAdsPayloads (dateRange, adAccounts, adCampaigns, fbAdsConfig
     for (const [index, obj] of Object.entries(metrics)) {
         metricsIndexes[obj.metric] = index
     }
-    const dimensions = buildFacebookDimensions(
+    const dimensions = buildfacebookAdsDimensions(
         fbAdsConfig.conf["dimensions"],
         fbAdsConfig["sorts"],
         metricsIndexes,
@@ -179,11 +179,11 @@ function buildFacebookFilters(filters) {
     })
 }
 
-function buildFacebookDimensions (dimensions, sorts, metricsIndexes) {
+function buildfacebookAdsDimensions (dimensions, sorts, metricsIndexes) {
     const dimensionsApiFormat = []
     for (const dimension of dimensions) {
         let group = {}
-        if (sorts.sort && !facebookDimensions.includes(sorts.sort)) {
+        if (sorts.sort && !facebookAdsDimensions.includes(sorts.sort)) {
             group = {
                 'sort': {
                     'key': 'value',

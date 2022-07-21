@@ -15,12 +15,7 @@ function onFbAdsSubmit(e) {
         if (['', undefined, null].includes(item.value)) {
             continue
         }
-        if (item.name === 'fields[]') {
-            conf = processFormField(conf, item)
-            continue
-        }
-
-        if (item.name === 'dimensions[]') {
+        if (item.name === 'fields[]' || item.name === 'dimensions[]') {
             conf = processFormField(conf, item)
             continue
         }
@@ -112,13 +107,13 @@ function renderFacebookAds() {
     })
     $('#fields').select2({
         multiple: true,
-        data: facebookMetrics.map(field => {
+        data: facebookAdsMetrics.map(field => {
             return {id: field, text: field}
         })
     })
     $('#dimensions').select2({
         multiple: true,
-        data: facebookDimensions.map(dimension => {
+        data: facebookAdsDimensions.map(dimension => {
             return {id: dimension, text: dimension}
         })
     })

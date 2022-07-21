@@ -94,18 +94,18 @@ async function onLoginSubmit(e) {
     tableau.password = $('#secret').val()
 
     let today = moment()
-    let monthAgo = today.clone().subtract(30, 'days')
+    let yearAgo = today.clone().subtract(1, 'years')
 
     let result = await fetchProfilesAndLabels()
     if (result === -1){
         $loginSpinner.hide()
         return
     }
-    await setAdAccounts(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
-    await setCampaigns(monthAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
+    await setAdAccounts(yearAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
+    await setCampaigns(yearAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
 
     $login.hide()
-    if (SBKS.data_source === 'facebook_ads') {
+    if (SBKS.data_source === 'facebook_ads' || SBKS.data_source === 'facebook_ads_ad') {
         renderAdAccounts()
     } else {
         renderProfiles()
@@ -136,9 +136,9 @@ $(function () {
             $('#profiles').show()
         })
 
-    $('#facebook_ads .back').click(function () {
+    $('#facebook_ads .back, #facebook_ads_ad .back').click(function () {
         $('[id$=Spinner]').hide()
-        $('#facebook_ads').hide()
+        $('#facebook_ads, #facebook_ads_ad').hide()
         $('#profiles').show()
     })
 })

@@ -120,7 +120,7 @@
 <!-- PROFILES -->
 <form id="profiles" style="display:none">
     <div class="row" style="margin-bottom: 10px;">
-        <div class="col-2 dropdown">
+        <div class="col-5 dropdown">
             <button type="button" class="btn btn-primary dropdown-toggle" id="data_source" data-bs-toggle="dropdown">
                 Profile metrics
             </button>
@@ -136,22 +136,12 @@
                 <!--<li>
                     <a class="dropdown-item" href="#" data-source-type="community_posts">Community posts metrics</a>
                 </li>-->
-                <li><a class="dropdown-item" href="#" data-source-type="facebook_ads">Facebook Ads</a></li>
+                <li><a class="dropdown-item" href="#" data-source-type="facebook_ads">Facebook Ads - Account & Campaign</a></li>
+                <li><a class="dropdown-item" href="#" data-source-type="facebook_ads_ad">Facebook Ads - Ad</a></li>
             </ul>
             <span id="adaccountsSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </div>
-        <div class="col-4">
-            <div class="input-group mb-3" id="adAccountRange" style="width:300px; visibility: hidden">
-                <label for="daterange" class="input-group-text">
-                    <ion-icon name="calendar-outline"></ion-icon>
-                </label>
-                <input type="text" class="form-control" name="daterange" id="daterangeAccounts">
-                <ion-icon name="help-circle-outline" style="font-size: 30px; margin-top: 5px; opacity: 0.5"
-                          data-toggle="tooltip" data-placement="bottom"
-                          title="Dates picked here only affect time span for ad accounts and campaigns."></ion-icon>
-            </div>
-        </div>
-        <div class="col-6">
+        <div class="col-7">
             <div class="input-group">
                 <span class="input-group-text"><ion-icon name="search-outline"></ion-icon></span>
                 <input type="text" class="form-control" id="search">
@@ -159,6 +149,17 @@
                     <ion-icon name="close-outline"></ion-icon>
                 </button>
             </div>
+        </div>
+    </div>
+    <div class="row" id="adAccountRange" style="display: none">
+        <div class="input-group" style="width: 320px">
+            <label for="daterange" class="input-group-text">
+                <ion-icon name="calendar-outline"></ion-icon>
+            </label>
+            <input type="text" class="form-control" name="daterange" id="daterangeAccounts">
+            <ion-icon name="help-circle-outline" style="font-size: 30px; margin: 5px 0 0 5px; opacity: 0.5"
+                      data-toggle="tooltip" data-placement="bottom"
+                      title="Dates picked here only affect time span for ad accounts and campaigns."></ion-icon>
         </div>
     </div>
 
@@ -424,6 +425,157 @@
         </button>
     </form>
 </div>
+
+<!-- FACEBOOK ADS AD -->
+<div id="facebook_ads_ad" style="display:none;">
+    <form id="facebookAdsAdForm">
+        <div class="input-group mb-3">
+            <label for="post_daterange" class="input-group-text">
+                <ion-icon name="calendar-outline"></ion-icon>
+            </label>
+            <input type="text" class="form-control" name="daterange" id="facebookadsad_daterange">
+        </div>
+        <div class="input-group mb-3">
+            <label for="campaigns" class="input-group-text">Campaigns</label>
+            <select class="form-select" name="campaigns[]" id="adCampaigns"></select>
+        </div>
+        <div class="input-group mb-3">
+            <label for="fields" class="input-group-text">Fields</label>
+            <select class="form-select" name="fields[]" id="adFields"></select>
+        </div>
+        <div id="filtersSortsFbAdsAd">
+            <div class="input-group mb-3">
+                <label class="input-group-text">Sort</label>
+                <select class="form-select" name="sort" id="sort_facebook_ads_ad">
+                    <option value="clicks">Clicks</option>
+                    <option value="cost_per_post_engagement">Cost per Post Engagement</option>
+                    <option value="cpc">CPC</option>
+                    <option value="cpm">CPM</option>
+                    <option value="ctr">CTR</option>
+                    <option value="engagement_rate">Engagement Rate</option>
+                    <option value="impressions">Impressions</option>
+                    <option value="inline_link_clicks">Inline Link Clicks</option>
+                    <option value="interaction_count">Interaction Count</option>
+                    <option value="landing_page_view">Landing Page View</option>
+                    <option value="lead">Lead</option>
+                    <option value="post_engagement">Post Engagement</option>
+                    <option value="spend">Spend</option>
+                    <option value="video_play_view">Video Play View</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">Order</label>
+                        <select class="form-select" name="order">
+                            <option value="asc">Ascending</option>
+                            <option value="desc" selected>Descending</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">Limit</label>
+                        <input type="number" min="0" max="500" value="500" class="form-control" name="ad_limit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text">Ad Type</label>
+                <select class="form-select" name="ad_type[]" multiple>
+                    <option value="boosted">Boosted</option>
+                    <option value="catalog">Catalog</option>
+                    <option value="dynamic">Dynamic</option>
+                    <option value="standard">Standard</option>
+                    <option value="variations">Variations</option>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text">Objective</label>
+                <select class="form-select" name="objective[]" multiple>
+                    <option value="APP_INSTALLS">APP_INSTALLS</option>
+                    <option value="BRAND_AWARENESS">BRAND_AWARENESS</option>
+                    <option value="CONVERSIONS">CONVERSIONS</option>
+                    <option value="EVENT_RESPONSES">EVENT_RESPONSES</option>
+                    <option value="LEAD_GENERATION">LEAD_GENERATION</option>
+                    <option value="LINK_CLICKS">LINK_CLICKS</option>
+                    <option value="LOCAL_AWARENESS">LOCAL_AWARENESS</option>
+                    <option value="MESSAGES">MESSAGES</option>
+                    <option value="MOBILE_APP_ENGAGEMENT">MOBILE_APP_ENGAGEMENT</option>
+                    <option value="MOBILE_APP_INSTALLS">MOBILE_APP_INSTALLS</option>
+                    <option value="OFFER_CLAIMS">OFFER_CLAIMS</option>
+                    <option value="OUTCOME_APP_PROMOTION">OUTCOME_APP_PROMOTION</option>
+                    <option value="OUTCOME_AWARENESS">OUTCOME_AWARENESS</option>
+                    <option value="OUTCOME_ENGAGEMENT">OUTCOME_ENGAGEMENT</option>
+                    <option value="OUTCOME_LEADS">OUTCOME_LEADS</option>
+                    <option value="OUTCOME_SALES">OUTCOME_SALES</option>
+                    <option value="OUTCOME_TRAFFIC">OUTCOME_TRAFFIC</option>
+                    <option value="PAGE_LIKES">PAGE_LIKES</option>
+                    <option value="POST_ENGAGEMENT">POST_ENGAGEMENT</option>
+                    <option value="PRODUCT_CATALOG_SALES">PRODUCT_CATALOG_SALES</option>
+                    <option value="REACH">REACH</option>
+                    <option value="STORE_VISITS">STORE_VISITS</option>
+                    <option value="VIDEO_VIEWS">VIDEO_VIEWS</option>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text">Placements</label>
+                <select class="form-select" name="placements[]" multiple>
+<!--                    <option value="all_placements">all_placements</option>-->
+                    <option value="an_classic">an_classic</option>
+                    <option value="facebook_groups_feed">facebook_groups_feed</option>
+                    <option value="facebook_stories">facebook_stories</option>
+                    <option value="feed">feed</option>
+                    <option value="instagram_explore">instagram_explore</option>
+                    <option value="instagram_igtv">instagram_igtv</option>
+                    <option value="instagram_reels">instagram_reels</option>
+                    <option value="instagram_stories">instagram_stories</option>
+                    <option value="instant_article">instant_article</option>
+                    <option value="instream_video">instream_video</option>
+                    <option value="marketplace">marketplace</option>
+                    <option value="messenger_inbox">messenger_inbox</option>
+                    <option value="messenger_stories">messenger_stories</option>
+                    <option value="rewarded_video">rewarded_video</option>
+                    <option value="right_hand_column">right_hand_column</option>
+                    <option value="search">search</option>
+                    <option value="video_feeds">video_feeds</option>
+                    <option value="unknown">unknown</option>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text">Platform</label>
+                <select class="form-select" name="platform[]" multiple>
+                    <option value="audience_network">Audience Network</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="messenger">Messenger</option>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <label for="ad_post_labels" class="input-group-text">Post Labels</label>
+                <select class="form-select" name="post_labels[]" id="ad_post_labels" multiple></select>
+            </div>
+
+            <div class="input-group mb-3" id="ad_country_container">
+                <label class="input-group-text">Country</label>
+                <select class="form-select" name="country[]" id="ad_country" multiple>
+                </select>
+            </div>
+        </div>
+        <button type="button" title="Back" class="btn btn-secondary back">
+            <ion-icon name="arrow-back-outline" title="Back"></ion-icon>
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <span id="fbAdsAdSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Submit
+        </button>
+    </form>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment-range@4.0.2/dist/moment-range.js"></script>
@@ -440,13 +592,15 @@
 <script src="js/posts.js" type="text/javascript"></script>
 <script src="js/community-metrics.js" type="text/javascript"></script>
 <script src="js/community-posts.js" type="text/javascript"></script>
-<script src="js/facebookAds.js" type="text/javascript"></script>
+<script src="js/facebook-ads.js" type="text/javascript"></script>
+<script src="js/facebook-ads-ad.js" type="text/javascript"></script>
 <script src="js/processors/profile.js" type="text/javascript"></script>
 <script src="js/processors/aggregated-posts.js" type="text/javascript"></script>
 <script src="js/processors/posts.js" type="text/javascript"></script>
 <script src="js/processors/community.js" type="text/javascript"></script>
 <script src="js/processors/community-posts.js" type="text/javascript"></script>
-<script src="js/processors/facebookAds.js" type="text/javascript"></script>
+<script src="js/processors/facebook-ads.js" type="text/javascript"></script>
+<script src="js/processors/facebook-ads-ad.js" type="text/javascript"></script>
 <script src="js/tableau-connector.js" type="text/javascript"></script>
 </body>
 </html>

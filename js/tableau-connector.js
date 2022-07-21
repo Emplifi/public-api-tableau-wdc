@@ -86,6 +86,23 @@ tableauConnector.getSchema = schemaCallback => {
         for (const dimension of sbksData.fb_ads.conf.dimensions) {
             appendDimensionColumn(dimension, cols)
         }
+    } else if (sbksData.data_source === 'facebook_ads_ad') {
+        for (const field of sbksData.fb_ads_ad_params.fields || []) {
+            let fieldObj = FACEBOOK_ADS_AD_FIELDS[field]
+            if (fieldObj.type) {
+                cols = appendColumn(cols, field, fieldObj.type)
+            } else if (fieldObj.array && fieldObj.subfields) {
+                for (let i = 1; i < MAX_POSTS_ARRAY_DEPTH; i++) {
+                    for (const [subField, type] of Object.entries(fieldObj.subfields)) {
+                        cols = appendColumn(cols, `${field}_${subField}_${i}`, type)
+                    }
+                }
+            } else if (fieldObj.subfields) {
+                for (const [subField, type] of Object.entries(fieldObj.subfields)) {
+                    cols = appendColumn(cols, `${field}_${subField}`, type)
+                }
+            }
+        }
     }
 
     if (cols.length) {
@@ -109,6 +126,8 @@ tableauConnector.getData = async (table, doneCallback) => {
         table.appendRows(await getCommunityPostsData(sbksData))
     } else if (sbksData.data_source === 'facebook_ads') {
         table.appendRows(await getFbAdsData(sbksData))
+    } else if (sbksData.data_source === 'facebook_ads_ad') {
+        table.appendRows(await getFbAdsAdData(sbksData))
     }
 
     doneCallback()
@@ -128,7 +147,9 @@ function invokeConnector(dataSource) {
     } else if (dataSource === 'community_posts') {
         tableau.connectionName = 'Socialbakers social media community posts'
     } else if (dataSource === 'facebook_ads') {
-        tableau.connectionName = 'Socialbakers social media facebook ads'
+        tableau.connectionName = 'Socialbakers social media Facebook Ads - Account & Campaign'
+    } else if (dataSource === 'facebook_ads_ad') {
+        tableau.connectionName = 'Socialbakers social media Facebook Ads - Ad'
     }
 
     tableau.submit()
