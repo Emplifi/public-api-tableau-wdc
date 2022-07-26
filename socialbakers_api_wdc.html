@@ -10,8 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://connectors.tableau.com/libs/tableauwdc-2.3.latest.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule="" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
@@ -61,6 +59,21 @@
             border-radius: 0 4px 4px 0 !important;
             border: 1px solid #ced4da !important;
             min-height: 43px !important;
+        }
+
+        ion-icon {
+            font-size: 16px;
+            --ionicon-stroke-width: 16px;
+        }
+
+        .btn-secondary.back {
+            width: 42px;
+            height: 38px;
+        }
+
+        .btn-secondary.back ion-icon  {
+            width: 16px;
+            height: 16px;
         }
     </style>
 </head>
@@ -602,5 +615,7 @@
 <script src="js/processors/facebook-ads.js" type="text/javascript"></script>
 <script src="js/processors/facebook-ads-ad.js" type="text/javascript"></script>
 <script src="js/tableau-connector.js" type="text/javascript"></script>
+<script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/6.0.2/ionicons/ionicons.esm.min.js"></script>
+<script nomodule src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/6.0.2/ionicons/ionicons.min.js"></script>
 </body>
 </html>

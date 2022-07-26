@@ -253,7 +253,7 @@ function renderAdAccounts() {
 function renderProfiles() {
     $profilesTable.html('')
     for (const [network, profiles] of Object.entries(SBKS.profiles)) {
-        if (network === 'vkontakte' || network === 'tiktok') { // VKontakte is disabled
+        if (network === 'vkontakte') { // VKontakte is disabled
             continue
         }
         // if (SBKS.data_source === 'profile' && network === 'vkontakte') {
