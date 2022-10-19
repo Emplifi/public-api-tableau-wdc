@@ -126,7 +126,13 @@ let PROFILE_METRICS = {
     },
     linkedin: {
         'followers_change': PROFILE_COMMON_DIMENSIONS,
-        'followers_lifetime': PROFILE_COMMON_DIMENSIONS
+        'followers_lifetime': PROFILE_COMMON_DIMENSIONS,
+        'insights_engagements': PROFILE_COMMON_DIMENSIONS,
+        'insights_impressions': PROFILE_COMMON_DIMENSIONS,
+        'insights_impressions_engagement_rate': PROFILE_COMMON_DIMENSIONS,
+        'insights_post_clicks': PROFILE_COMMON_DIMENSIONS,
+        'insights_reach': PROFILE_COMMON_DIMENSIONS,
+        'insights_reach_engagement_rate': PROFILE_COMMON_DIMENSIONS
     },
     pinterest: {
         'boards_change': PROFILE_COMMON_DIMENSIONS,
@@ -242,11 +248,20 @@ let AGGREGATED_POST_METRICS = {
     },
     linkedin: {
         'engagement_rate': engagement_rate,
+        'insights_engagements': insights_engagements,
+        'insights_impressions': engagement_rate,
+        'insights_impressions_engagement_rate': insights_engagements,
+        'insights_post_clicks': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
+        'insights_video_views': insights_video_views,
+        'insights_video_views_unique': insights_video_views,
+        'insights_view_time': common_agg_dimensions,
         'interactions': interactions,
         'interactions_per_1k_fans': engagement_rate,
+        'likes': likes,
         'number_of_comments': engagement_rate,
         'page_posts': engagement_rate,
-        'sentiment_manual_auto': sentiment_manual_auto
+        'sentiment_manual_auto': sentiment_manual_auto,
+        'insights_post_clicks': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status'])
     },
     pinterest: {
         'interactions': interactions,
@@ -352,7 +367,7 @@ let POSTS_FILTER_FIELDS = {
     },
     media_type: {
         facebook: ['status', 'link', 'video', 'note', 'poll', 'offer', 'photo', 'carousel'],
-        instagram: ['video', 'photo', 'carousel', 'video_igtv'],
+        instagram: ['video', 'photo', 'carousel', 'video_igtv', 'reel'],
         youtube: ['video'],
         twitter: [],
         linkedin: ['status', 'link', 'video', 'photo', 'album', 'carousel'],
@@ -522,8 +537,10 @@ let POSTS_FIELDS = {
     video_view_time: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
     video_views: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
     insights_avg_time_watched: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
-    insights_comments: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_clicks: {networks: ['linkedin'], type: tableau.dataTypeEnum.int},
+    insights_comments: {networks: ['tiktok', 'linkedin'], type: tableau.dataTypeEnum.int},
     insights_completion_rate: {networks: ['tiktok'], type: tableau.dataTypeEnum.float},
+    insights_content_impressions: {networks: ['linkedin'], type: tableau.dataTypeEnum.int},
     insights_impressions_by_traffic_source: {
         networks: ['tiktok'],
         subfields: {
@@ -533,7 +550,7 @@ let POSTS_FIELDS = {
     },
     insights_likes: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
     insights_shares: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
-    insights_view_time: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_view_time: {networks: ['tiktok', 'linkedin'], type: tableau.dataTypeEnum.int},
     insights_viewers_by_country: {
         networks: ['tiktok'],
         subfields: {
@@ -542,7 +559,7 @@ let POSTS_FIELDS = {
         }
     },
     insights_engaged_users: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
-    insights_engagements: {networks: ['facebook', 'tiktok'], type: tableau.dataTypeEnum.int},
+    insights_engagements: {networks: ['facebook', 'tiktok', 'linkedin'], type: tableau.dataTypeEnum.int},
     insights_engagement: {networks: ['instagram', 'youtube'], type: tableau.dataTypeEnum.int},
     insights_engagement_by_engagement_type: {
         networks: ['instagram'],
@@ -553,7 +570,7 @@ let POSTS_FIELDS = {
         }
     },
     insights_impressions: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.int},
-    insights_impressions_engagement_rate: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.float},
+    insights_impressions_engagement_rate: {networks: ['facebook', 'instagram', 'linkedin'], type: tableau.dataTypeEnum.float},
     insights_impressions_by_post_attribution: {
         networks: ['facebook'],
         subfields: {
@@ -594,7 +611,7 @@ let POSTS_FIELDS = {
         }
     },
     insights_reach_engagement_rate: {networks: ['facebook', 'instagram', 'tiktok'], type: tableau.dataTypeEnum.float},
-    insights_reactions: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
+    insights_reactions: {networks: ['facebook', 'linkedin'], type: tableau.dataTypeEnum.int},
     insights_reactions_by_type: {
         networks: ['facebook'],
         subfields: {
@@ -670,7 +687,7 @@ let POSTS_FIELDS = {
             "F_18_24": tableau.dataTypeEnum.int,
         }
     },
-    insights_video_views: {networks: ['facebook', 'instagram', 'tiktok'], type: tableau.dataTypeEnum.int},
+    insights_video_views: {networks: ['facebook', 'instagram', 'linkedin', 'tiktok'], type: tableau.dataTypeEnum.int},
     insights_video_views_10s: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_video_views_10s_by_play_type: {
         networks: ['facebook'],
@@ -755,7 +772,7 @@ let POSTS_FIELDS = {
             shared: tableau.dataTypeEnum.int
         }
     },
-    insights_video_views_unique: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
+    insights_video_views_unique: {networks: ['facebook', 'linkedin'], type: tableau.dataTypeEnum.int},
     insights_video_views_unique_by_post_attribution: {
         networks: ['facebook'],
         subfields: {
