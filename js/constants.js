@@ -1,6 +1,6 @@
 // SHARED CONFIG
 let SBKS = {
-    apiUrl: 'https://api.socialbakers.com/',
+    apiUrl: 'https://api.emplifi.io/',
     postsUrl: {
         facebook: '3/facebook/page/posts',
         instagram: '3/instagram/profile/posts',

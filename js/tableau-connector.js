@@ -137,19 +137,19 @@ tableau.registerConnector(tableauConnector)
 
 function invokeConnector(dataSource) {
     if (dataSource === 'profile') {
-        tableau.connectionName = 'Socialbakers social media profiles'
+        tableau.connectionName = 'Emplifi social media profiles'
     } else if (dataSource === 'aggregated_post') {
-        tableau.connectionName = 'Socialbakers social media aggregated post metrics'
+        tableau.connectionName = 'Emplifi social media aggregated post metrics'
     } else if (dataSource === 'posts') {
-        tableau.connectionName = 'Socialbakers social media posts'
+        tableau.connectionName = 'Emplifi social media posts'
     } else if (dataSource === 'community') {
-        tableau.connectionName = 'Socialbakers social media community metrics'
+        tableau.connectionName = 'Emplifi social media community metrics'
     } else if (dataSource === 'community_posts') {
-        tableau.connectionName = 'Socialbakers social media community posts'
+        tableau.connectionName = 'Emplifi social media community posts'
     } else if (dataSource === 'facebook_ads') {
-        tableau.connectionName = 'Socialbakers social media Facebook Ads - Account & Campaign'
+        tableau.connectionName = 'Emplifi social media Facebook Ads - Account & Campaign'
     } else if (dataSource === 'facebook_ads_ad') {
-        tableau.connectionName = 'Socialbakers social media Facebook Ads - Ad'
+        tableau.connectionName = 'Emplifi social media Facebook Ads - Ad'
     }
 
     tableau.submit()
