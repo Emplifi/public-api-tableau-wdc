@@ -11,7 +11,7 @@ without providing credentials on each execution.
 
 `npm i -g light-server`
 
-`light-server -p 8000 -s src`
+`light-server -p 8000 -s .`
 
 Open http://0.0.0.0:8000/socialbakers_api_wdc.html
 

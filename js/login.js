@@ -12,6 +12,7 @@ async function fetchProfilesAndLabels() {
     let profile_labels_request = callSbksApi('3/profile/labels', 'GET')
     let post_labels_request = callSbksApi('3/post/labels', 'GET')
     let content_label_groups_request = callSbksApi('3/post/label-groups', 'GET')
+    let listening_queries_request = callSbksApi('3/listening/queries', 'GET')
     await Promise.all(Object.values(requests))
     for (const [network, coroutine] of Object.entries(requests)) {
         let response = {success: false}
@@ -76,6 +77,13 @@ async function fetchProfilesAndLabels() {
             })
             SBKS.content_label_groups = content_label_groups_response.data
         }
+        let listening_queries_response = await listening_queries_request
+        if (listening_queries_response.success) {
+            listening_queries_response.queries.sort((a, b) => {
+                return a.name.localeCompare(b.name)
+            })
+            SBKS.listening_queries = listening_queries_response.queries
+        }
     } catch (err) {
         showModal('Labels API error', err.toString())
     }
@@ -107,6 +115,10 @@ async function onLoginSubmit(e) {
     $login.hide()
     if (SBKS.data_source === 'facebook_ads' || SBKS.data_source === 'facebook_ads_ad') {
         renderAdAccounts()
+    } else if (SBKS.data_source === 'listening_content') {
+        renderListeningContent()
+    } else if (SBKS.data_source === 'listening') {
+        renderListeningMetrics()
     } else {
         renderProfiles()
     }
@@ -123,22 +135,19 @@ function showModal(title, body) {
 $(function () {
     $login.submit(onLoginSubmit)
 
-    $('#profiles .back').click(function () {
-        $('[id$=Spinner]').hide()
-        $('#profiles').hide()
+    $('#profiles .back, #listeningContent .back, #listeningMetrics .back').click(function () {
+        $('[id$=Spinner], #profiles, #profileSearch, #mainMenu, #listeningContent, #listeningMetrics').hide()
         $('#login').show()
     })
 
     $('#profileMetrics .back,#aggregatedPostMetrics .back,#posts .back,#communityPosts .back,#communityMetrics .back')
         .click(function () {
-            $('[id$=Spinner]').hide()
-            $('#profileMetrics, #aggregatedPostMetrics, #posts, #communityPosts, #communityMetrics').hide()
-            $('#profiles').show()
+            $('[id$=Spinner], #profileMetrics, #aggregatedPostMetrics, #posts, #communityPosts, #communityMetrics').hide()
+            $('#profiles, #mainMenu, #profileSearch').show()
         })
 
     $('#facebook_ads .back, #facebook_ads_ad .back').click(function () {
-        $('[id$=Spinner]').hide()
-        $('#facebook_ads, #facebook_ads_ad').hide()
-        $('#profiles').show()
+        $('[id$=Spinner], #facebook_ads, #facebook_ads_ad').hide()
+        $('#profiles, #mainMenu, #profileSearch').show()
     })
 })

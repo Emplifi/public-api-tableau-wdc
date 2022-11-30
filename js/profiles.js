@@ -1,4 +1,6 @@
 let $profiles = $('#profiles')
+let $mainMenu = $('#mainMenu')
+let $profileSearch = $('#profileSearch')
 let $profilesSpinner = $('#profilesSpinner').hide()
 let $profilesTable = $('#profilesTable')
 let $adaccountsSpinner = $('#adaccountsSpinner')
@@ -47,6 +49,8 @@ async function onProfilesSubmit(e) {
     }
 
     $profiles.hide()
+    $mainMenu.hide()
+    $profileSearch.hide()
     if (SBKS.data_source === 'profile') {
         renderProfileMetrics()
     } else if (SBKS.data_source === 'aggregated_post') {
@@ -73,12 +77,20 @@ $(function () {
 
     $('[data-source-type]').click(function (e) {
         e.preventDefault()
+        $mainMenu.hide()
+        $profileSearch.hide()
+        $profiles.hide()
+        $listeningContentDiv.hide()
         SBKS.data_source = $(this).data('source-type')
         $('#data_source').text($(this).text())
         if (SBKS.data_source === 'facebook_ads' || SBKS.data_source === 'facebook_ads_ad') {
             $('#adAccountRange').css('display', 'block')
             renderAdAccounts()
             adAccounts = true
+        }  else if (SBKS.data_source === 'listening_content') {
+            renderListeningContent()
+        }  else if (SBKS.data_source === 'listening') {
+            renderListeningMetrics()
         } else {
             $('#adAccountRange').css('display', 'none')
             renderProfiles()
@@ -248,6 +260,8 @@ function renderAdAccounts() {
     }
     $profilesTable.append($tbody)
     $profiles.show()
+    $mainMenu.show()
+    $profileSearch.show()
 }
 
 function renderProfiles() {
@@ -299,6 +313,8 @@ function renderProfiles() {
     }
 
     $profiles.show()
+    $mainMenu.show()
+    $profileSearch.show()
 }
 
 function renderProfile(network, profile, $tbody) {

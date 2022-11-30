@@ -103,6 +103,31 @@ tableauConnector.getSchema = schemaCallback => {
                 }
             }
         }
+    } else if (sbksData.data_source === 'listening_content') {
+        for (const field of sbksData.listening_content_fields || []) {
+            let fieldObj = LISTENING_CONTENT_FIELDS[field]
+            if (fieldObj.type) {
+                cols = appendColumn(cols, field, fieldObj.type)
+            } else if (fieldObj.array && fieldObj.subfields) {
+                for (let i = 1; i < MAX_POSTS_ARRAY_DEPTH; i++) {
+                    for (const [subField, type] of Object.entries(fieldObj.subfields)) {
+                        cols = appendColumn(cols, `${field}_${subField}_${i}`, type)
+                    }
+                }
+            } else if (fieldObj.subfields) {
+                for (const [subField, type] of Object.entries(fieldObj.subfields)) {
+                    cols = appendColumn(cols, `${field}_${subField}`, type)
+                }
+            }
+        }
+    } else if (sbksData.data_source === 'listening') {
+        for (const metric of sbksData.listening_filters.metrics || []) {
+            cols = appendColumn(cols, metric, tableau.dataTypeEnum.int)
+        }
+
+        for (const dimension of sbksData.listening_filters.dimensions || []) {
+            cols = appendDimensionColumn(dimension, cols, sbksData)
+        }
     }
 
     if (cols.length) {
@@ -128,6 +153,10 @@ tableauConnector.getData = async (table, doneCallback) => {
         table.appendRows(await getFbAdsData(sbksData))
     } else if (sbksData.data_source === 'facebook_ads_ad') {
         table.appendRows(await getFbAdsAdData(sbksData))
+    } else if (sbksData.data_source === 'listening') {
+        table.appendRows(await getListeningData(sbksData))
+    } else if (sbksData.data_source === 'listening_content') {
+        table.appendRows(await getListeningContentData(sbksData))
     }
 
     doneCallback()
@@ -150,6 +179,10 @@ function invokeConnector(dataSource) {
         tableau.connectionName = 'Emplifi social media Facebook Ads - Account & Campaign'
     } else if (dataSource === 'facebook_ads_ad') {
         tableau.connectionName = 'Emplifi social media Facebook Ads - Ad'
+    } else if (dataSource === 'listening') {
+        tableau.connectionName = 'Socialbakers social media listening metrics'
+    } else if (dataSource === 'listening_content') {
+        tableau.connectionName = 'Socialbakers social media listening posts'
     }
 
     tableau.submit()

@@ -131,39 +131,43 @@
 </form>
 
 <!-- PROFILES -->
-<form id="profiles" style="display:none">
-    <div class="row" style="margin-bottom: 10px;">
-        <div class="col-5 dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" id="data_source" data-bs-toggle="dropdown">
-                Profile metrics
+<div class="row">
+    <div class="col-5 dropdown" style="margin-bottom: 10px; display: none" id="mainMenu">
+        <button type="button" class="btn btn-primary dropdown-toggle" id="data_source" data-bs-toggle="dropdown">
+            Profile metrics
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#" data-source-type="profile">Profile metrics</a></li>
+            <li>
+                <a class="dropdown-item" href="#" data-source-type="aggregated_post">Aggregated post metrics</a>
+            </li>
+            <li><a class="dropdown-item" href="#" data-source-type="posts">Post metrics</a></li>
+            <li id="communityMenuItem" style="display: none">
+                <a class="dropdown-item" href="#" data-source-type="community">Community metrics</a>
+            </li>
+            <!--<li>
+                <a class="dropdown-item" href="#" data-source-type="community_posts">Community posts metrics</a>
+            </li>-->
+            <li><a class="dropdown-item" href="#" data-source-type="facebook_ads">Facebook Ads - Account & Campaign</a></li>
+            <li><a class="dropdown-item" href="#" data-source-type="facebook_ads_ad">Facebook Ads - Ad</a></li>
+            <li><a class="dropdown-item" href="#" data-source-type="listening_content">Listening posts</a></li>
+            <li><a class="dropdown-item" href="#" data-source-type="listening">Listening metrics</a></li>
+        </ul>
+        <span id="adaccountsSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    </div>
+    <div class="col-7" id="profileSearch" style="display: none">
+        <div class="input-group">
+            <span class="input-group-text"><ion-icon name="search-outline"></ion-icon></span>
+            <input type="text" class="form-control" id="search">
+            <button class="btn btn-outline-secondary" type="button" id="clearSearch" style="border-color: #ced4da">
+                <ion-icon name="close-outline"></ion-icon>
             </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" data-source-type="profile">Profile metrics</a></li>
-                <li>
-                    <a class="dropdown-item" href="#" data-source-type="aggregated_post">Aggregated post metrics</a>
-                </li>
-                <li><a class="dropdown-item" href="#" data-source-type="posts">Post metrics</a></li>
-                <li id="communityMenuItem" style="display: none">
-                    <a class="dropdown-item" href="#" data-source-type="community">Community metrics</a>
-                </li>
-                <!--<li>
-                    <a class="dropdown-item" href="#" data-source-type="community_posts">Community posts metrics</a>
-                </li>-->
-                <li><a class="dropdown-item" href="#" data-source-type="facebook_ads">Facebook Ads - Account & Campaign</a></li>
-                <li><a class="dropdown-item" href="#" data-source-type="facebook_ads_ad">Facebook Ads - Ad</a></li>
-            </ul>
-            <span id="adaccountsSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        </div>
-        <div class="col-7">
-            <div class="input-group">
-                <span class="input-group-text"><ion-icon name="search-outline"></ion-icon></span>
-                <input type="text" class="form-control" id="search">
-                <button class="btn btn-outline-secondary" type="button" id="clearSearch" style="border-color: #ced4da">
-                    <ion-icon name="close-outline"></ion-icon>
-                </button>
-            </div>
         </div>
     </div>
+</div>
+
+
+<form id="profiles" style="display:none">
     <div class="row" id="adAccountRange" style="display: none">
         <div class="input-group" style="width: 320px">
             <label for="daterange" class="input-group-text">
@@ -290,7 +294,7 @@
 <!-- COMMUNITY METRICS -->
 <form id="communityMetrics" style="display:none">
     <div class="input-group mb-3">
-        <label for="daterange" class="input-group-text">
+        <label for="community_metrics_daterange" class="input-group-text">
             <ion-icon name="calendar-outline"></ion-icon>
         </label>
         <input type="text" class="form-control" name="daterange" id="community_metrics_daterange">
@@ -405,6 +409,179 @@
         </button>
     </form>
 </div>
+
+<!-- LISTENING CONTENT -->
+<div id="listeningContent" style="display:none;">
+    <form id="listeningContentForm">
+        <div class="input-group mb-3">
+            <label for="community_post_daterange" class="input-group-text">
+                <ion-icon name="calendar-outline"></ion-icon>
+            </label>
+            <input type="text" class="form-control" name="daterange" id="listening_content_daterange">
+        </div>
+        <div class="input-group mb-3">
+            <label for="listening_content_queries" class="input-group-text">Listening Queries</label>
+            <select class="form-select" name="listening_queries[]" id="listening_content_queries" multiple></select>
+        </div>
+        <div class="input-group mb-3">
+            <label for="listening_content_post_labels" class="input-group-text">Post Labels</label>
+            <select class="form-select" name="post_labels[]" id="listening_content_post_labels" multiple></select>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="listening_content_country">Countries</label>
+            <select class="form-select" name="country[]" id="listening_content_country" multiple>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="listening_content_language">Languages</label>
+            <select class="form-select" name="language[]" id="listening_content_language" multiple>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text">Platform</label>
+            <select class="form-select" name="platform[]" multiple>
+                <option value="blogs">Blogs</option>
+                <option value="facebook">Facebook</option>
+                <option value="forums">Forums</option>
+                <option value="instagram">Instagram</option>
+                <option value="news">News</option>
+                <option value="twitter">Twitter</option>
+                <option value="youtube">Youtube</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <label for="listening_content_content_type" class="input-group-text">Content Type</label>
+            <select class="form-select" name="content_type" id="listening_content_content_type">
+                <option value=""></option>
+                <option value="post">Post</option>
+                <option value="comment">Comment</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <label for="listening_content_sentiment" class="input-group-text">Sentiment</label>
+            <select class="form-select" name="sentiment" id="listening_content_sentiment">
+                <option value=""></option>
+                <option value="positive">Positive</option>
+                <option value="negative">Negative</option>
+                <option value="neutral">Neutral</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text">Fields</label>
+            <select class="form-select" id="listening-content-fields" name="fields[]"></select>
+        </div>
+        <div class="input-group mb-3">
+            <label class="input-group-text">Sort</label>
+            <select class="form-select" name="sort" id="sort_listening_content">
+                <option value="comments">Comments</option>
+                <option value="interactions">Interactions</option>
+                <option value="potential_impressions">Potential Impressions</option>
+                <option value="shares">Shares</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <label class="input-group-text">Order</label>
+                    <select class="form-select" name="order">
+                        <option value="asc">Ascending</option>
+                        <option value="desc" selected>Descending</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button type="button" title="Back" class="btn btn-secondary back">
+            <ion-icon name="arrow-back-outline" title="Back"></ion-icon>
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <span id="listeningContentSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Submit
+        </button>
+    </form>
+</div>
+
+<!-- LISTENING METRICS -->
+<form id="listeningMetrics" style="display:none">
+    <div class="input-group mb-3">
+        <label for="listening_daterange" class="input-group-text">
+            <ion-icon name="calendar-outline"></ion-icon>
+        </label>
+        <input type="text" class="form-control" name="daterange" id="listening_daterange">
+    </div>
+    <div class="input-group mb-3">
+        <label for="listening_queries" class="input-group-text">Listening Queries</label>
+        <select class="form-select" name="listening_queries[]" id="listening_queries" multiple required></select>
+    </div>
+    <div class="input-group mb-3">
+        <label for="listening_post_labels" class="input-group-text">Post Labels</label>
+        <select class="form-select" name="post_labels[]" id="listening_post_labels" multiple></select>
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="listeningMetricsSelect">Metrics</label>
+        <select class="form-select" id="listeningMetricsSelect" name="metrics[]" multiple required></select>
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="listeningDimensionsSelect">Dimensions</label>
+        <select class="form-select" id="listeningDimensionsSelect" name="dimensions[]" multiple></select>
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="listening-author">Author</label>
+        <input type="text" class="form-control" id="listening-author" name="author">
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="listening_country">Countries</label>
+        <select class="form-select" name="country[]" id="listening_country" multiple>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="listening_language">Languages</label>
+        <select class="form-select" name="language[]" id="listening_language" multiple>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <label for="listening_sentiment" class="input-group-text">Sentiment</label>
+        <select class="form-select" name="sentiment" id="listening_sentiment">
+            <option value=""></option>
+            <option value="positive">Positive</option>
+            <option value="negative">Negative</option>
+            <option value="neutral">Neutral</option>
+            <option value="no_sentiment">No Sentiment</option>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text">Platform</label>
+        <select class="form-select" name="platform[]" multiple>
+            <option value="blogs">Blogs</option>
+            <option value="facebook">Facebook</option>
+            <option value="forums">Forums</option>
+            <option value="instagram">Instagram</option>
+            <option value="linkedin">Linkedin</option>
+            <option value="news">News</option>
+            <option value="pinterest">Pinterest</option>
+            <option value="tiktok">Tiktok</option>
+            <option value="twitter">Twitter</option>
+            <option value="youtube">Youtube</option>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <label for="listening_content_type" class="input-group-text">Content Type</label>
+        <select class="form-select" name="content_type" id="listening_content_type">
+            <option value=""></option>
+            <option value="post">Post</option>
+            <option value="comment">Comment</option>
+            <option value="comment">Share</option>
+        </select>
+    </div>
+
+    <button type="button" title="Back" class="btn btn-secondary back">
+        <ion-icon name="arrow-back-outline" title="Back"></ion-icon>
+    </button>
+    <button type="submit" class="btn btn-primary">
+        <span id="listeningMetricsSpinner" class="spinner-border spinner-border-sm" role="status"
+              aria-hidden="true"></span>
+        Submit
+    </button>
+</form>
 
 <!-- FACEBOOK ADS -->
 <div id="facebook_ads" style="display:none;">
@@ -607,6 +784,8 @@
 <script src="js/community-posts.js" type="text/javascript"></script>
 <script src="js/facebook-ads.js" type="text/javascript"></script>
 <script src="js/facebook-ads-ad.js" type="text/javascript"></script>
+<script src="js/listening-content.js" type="text/javascript"></script>
+<script src="js/listening-metrics.js" type="text/javascript"></script>
 <script src="js/processors/profile.js" type="text/javascript"></script>
 <script src="js/processors/aggregated-posts.js" type="text/javascript"></script>
 <script src="js/processors/posts.js" type="text/javascript"></script>
@@ -614,6 +793,8 @@
 <script src="js/processors/community-posts.js" type="text/javascript"></script>
 <script src="js/processors/facebook-ads.js" type="text/javascript"></script>
 <script src="js/processors/facebook-ads-ad.js" type="text/javascript"></script>
+<script src="js/processors/listening.js" type="text/javascript"></script>
+<script src="js/processors/listening-content.js" type="text/javascript"></script>
 <script src="js/tableau-connector.js" type="text/javascript"></script>
 <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/6.0.2/ionicons/ionicons.esm.min.js"></script>
 <script nomodule src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/6.0.2/ionicons/ionicons.min.js"></script>
