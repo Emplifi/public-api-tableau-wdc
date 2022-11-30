@@ -190,7 +190,7 @@ function renderFacebookAdsFiltersSorts() {
         <div class="col">
             <div class="input-group mb-3">
                 <label class="input-group-text">Campaign Limit</label>
-                <input type="number" min="0" max="2000" value="0" class="form-control" name="campaign_limit">
+                <input type="number" min="0" max="2000" value="1000" class="form-control" name="campaign_limit">
             </div>
         </div>
         <div class="col">
