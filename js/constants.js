@@ -791,6 +791,9 @@ let COMMUNITY_METRICS = {
     'message_count': COMMUNITY_DIMENSIONS,
     'response_time': [
         'community_type', 'post_label', 'profile', 'profile_label', 'resolve_status', 'response_date', 'sentiment'
+    ],
+    'response_time_business_hours': [
+        'community_type', 'post_label', 'profile', 'profile_label', 'resolve_status', 'response_date', 'sentiment'
     ]
 }
 
