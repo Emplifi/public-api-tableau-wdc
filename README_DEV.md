@@ -1,6 +1,6 @@
 # Emplifi API Tableau Web Data Connector v3.0
 
-[https://socialbakers.github.io/public-api-tableau-wdc/socialbakers_api_wdc](https://socialbakers.github.io/public-api-tableau-wdc/socialbakers_api_wdc)
+[https://emplifi.github.io/public-api-tableau-wdc/socialbakers_api_wdc](https://emplifi.github.io/public-api-tableau-wdc/socialbakers_api_wdc)
 
 Tableau Web Data Connectors are static web pages that use JS to connect to data-source.
 
@@ -29,7 +29,7 @@ The `.gitlab.ci.yml` is already included that configures and automatically deplo
  - https://api-connectors.git.ccl/tableau-connector/socialbakers_api_wdc.html
 
 ## Deploy Staging
- - fork https://github.com/Socialbakers/public-api-tableau-wdc
+ - fork https://github.com/Emplifi/public-api-tableau-wdc
  - `git clone git@github.com:_YOUR_GITHUB_USERNAME_/public-api-tableau-wdc.git`
  - `git remote add upstream git@git.ccl:api-connectors/tableau-connector.git`
  - `git reset --hard upstream/_YOUR_FEATURE_BRANCH_NAME_`
