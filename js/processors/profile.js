@@ -62,21 +62,32 @@ function mergeHeader(a, b, match) {
 
 function processMetricItem(sbksData, data, item, depth, index, row, rows) {
     let header = data.header[depth]
+    let headerRow = header.rows[index]
 
     if (header.type !== 'metric') {
         if (header.type === 'profile') {
-            if (typeof header.rows[index] === 'string') {
-                row['profile_id'] = header.rows[index]
+            if (typeof headerRow === 'string') {
+                row['profile_id'] = headerRow
             } else {
-                if (header.rows[index]) {
-                    row['profile_id'] = header.rows[index].id
-                    row['platform'] = header.rows[index].platform
+                if (headerRow) {
+                    row['profile_id'] = headerRow.id
+                    row['platform'] = headerRow.platform
                 }
             }
             let profile = sbksData.profiles[row.platform].find(p => p.id === row['profile_id'])
             row['profile'] = profile ? profile.name : null
         } else {
-            row[header.type.replace('.', '_')] = header.rows[index]
+            let headerName = header.type.replace('.', '_')
+
+            if (typeof headerRow === 'object') {
+                if (headerRow.hasOwnProperty('other')) {
+                    row[headerName] = 'other'
+                } else {
+                    row[headerName] = 'UNKNOWN'
+                }
+            } else {
+                row[headerName] = headerRow
+            }
         }
 
         if (data.header.length > depth) {
