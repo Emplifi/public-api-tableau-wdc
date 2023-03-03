@@ -109,8 +109,13 @@ async function onLoginSubmit(e) {
         $loginSpinner.hide()
         return
     }
-    await setAdAccounts(yearAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
-    await setCampaigns(yearAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
+
+    try {
+        await setAdAccounts(yearAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'), false)
+        await setCampaigns(yearAgo.format('YYYY-MM-DD'), today.format('YYYY-MM-DD'))
+    } catch (e) {
+        console.log("Ads error", e)
+    }
 
     $login.hide()
     if (SBKS.data_source === 'facebook_ads' || SBKS.data_source === 'facebook_ads_ad') {

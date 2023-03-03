@@ -228,12 +228,14 @@ async function setCampaigns(start, end) {
     const campaignsFormatted = []
     if (response.success) {
         const campaigns = response.header[0]
-        for (let i = 0; i < campaigns.fields.length; i++) {
-            campaignsFormatted.push({
-                id: campaigns.rows[i],
-                name: campaigns.fields[i].campaign_name,
-                ad_account_id: (SBKS.adaccounts.find(aa => aa.name === campaigns.fields[i].ad_account_name) || {}).id
-            })
+        if (campaigns.fields) {
+            for (let i = 0; i < campaigns.fields.length; i++) {
+                campaignsFormatted.push({
+                    id: campaigns.rows[i],
+                    name: campaigns.fields[i].campaign_name,
+                    ad_account_id: (SBKS.adaccounts.find(aa => aa.name === campaigns.fields[i].ad_account_name) || {}).id
+                })
+            }
         }
     }
     SBKS.campaigns = campaignsFormatted
