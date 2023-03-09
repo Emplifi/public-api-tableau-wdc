@@ -383,7 +383,7 @@ let POSTS_FILTER_FIELDS = {
     },
     origin: {
         facebook: ['User-Generated Content', 'Brand\'s Content'],
-        instagram: [],
+        instagram: ['User-Generated Content', 'Brand\'s Content'],
         youtube: [],
         twitter: ['User-Generated Content', 'Brand\'s Content'],
         linkedin: [],
