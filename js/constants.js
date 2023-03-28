@@ -436,7 +436,7 @@ let POSTS_FIELDS = {
         }
     },
     author: {
-        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
+        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
         subfields: ID_NAME_URL
     },
     channel: {networks: ['youtube'], subfields: ID_NAME_URL},
