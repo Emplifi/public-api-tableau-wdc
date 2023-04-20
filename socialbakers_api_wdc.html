@@ -525,7 +525,9 @@
         <select class="form-select" id="listeningDimensionsSelect" name="dimensions[]" multiple></select>
     </div>
     <div class="input-group mb-3">
-        <label class="input-group-text" for="listening-author">Author</label>
+        <label class="input-group-text" for="listening-author">
+            Author&nbsp;<small>[platform]-[profile_id], i.e. facebook-1649291xxxx</small>
+        </label>
         <input type="text" class="form-control" id="listening-author" name="author">
     </div>
     <div class="input-group mb-3">
@@ -536,6 +538,22 @@
     <div class="input-group mb-3">
         <label class="input-group-text" for="listening_language">Languages</label>
         <select class="form-select" name="language[]" id="listening_language" multiple>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="listening_media_type">Media Type</label>
+        <select class="form-select" name="media_type[]" id="listening_media_type" multiple>
+            <option value="album">Album</option>
+            <option value="animated_gif">Animated GIF</option>
+            <option value="carousel">Carousel</option>
+            <option value="link">Link</option>
+            <option value="note">Note</option>
+            <option value="offer">Offer</option>
+            <option value="photo">Photo</option>
+            <option value="poll">Poll</option>
+            <option value="reel">Reel</option>
+            <option value="status">Status</option>
+            <option value="video">Video</option>
         </select>
     </div>
     <div class="input-group mb-3">

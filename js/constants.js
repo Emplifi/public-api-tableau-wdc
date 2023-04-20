@@ -880,6 +880,7 @@ let LISTENING_DIMENSIONS = [
     'keyword',
     'language',
     'location',
+    'media_type',
     'organization',
     'person',
     'platform',
