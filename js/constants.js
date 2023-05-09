@@ -18,7 +18,7 @@ let SBKS = {
     listening_content_url: '3/listening/posts',
     listening_url: '3/listening/metrics',
     data_source: 'profile',
-    networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+    networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'tiktok'],
     icons: {
         facebook: 'logo-facebook',
         instagram: 'logo-instagram',
