@@ -379,7 +379,7 @@ let POSTS_FILTER_FIELDS = {
         tiktok: []
     },
     media_type: {
-        facebook: ['status', 'link', 'video', 'note', 'poll', 'offer', 'photo', 'carousel'],
+        facebook: ['status', 'link', 'video', 'note', 'poll', 'offer', 'photo', 'carousel', 'reel'],
         instagram: ['video', 'photo', 'carousel', 'video_igtv', 'reel'],
         youtube: ['video'],
         twitter: [],
