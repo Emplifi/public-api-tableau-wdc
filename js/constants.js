@@ -48,6 +48,7 @@ let SBKS = {
     profile_name_by_id: {},
     aggregated_post_metrics: [],
     aggregated_post_dimensions: [],
+    aggregated_post_filters: {},
     posts_filters: {},
     posts_networks: {},
     gender_age_version: 1,
@@ -297,6 +298,12 @@ let AGGREGATED_POST_METRICS = {
         'page_posts': engagement_rate
     }
 }
+
+let AGGREGATED_POST_FILTERS = {
+    platform: ['twitter', 'instagram', 'facebook', 'youtube', 'linkedin', 'pinterest', 'tiktok', 'snapchat'],
+    content_type: ['post', 'reply', 'shared', 'story', 'snap'],
+    media_type: ['album', 'animated_gif', 'carousel', 'link', 'note', 'offer', 'photo', 'poll', 'reel', 'status', 'video', 'audio', 'activity', 'doc', 'map', 'combined', 'unknown'],
+}  
 
 // POSTS
 let ID_NAME_URL = {

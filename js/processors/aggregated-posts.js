@@ -13,6 +13,18 @@ async function getAggregatedPostData(sbksData) {
     let response = null, metricsResponse = null, profileResponse = null
     let dateRange = adjustDateRange(sbksData.date_range)
 
+    let filters = []
+    if (sbksData.aggregated_post_filters){
+        const selectedFilters = Object.keys(sbksData.aggregated_post_filters)
+        const temp = selectedFilters.map(filter => {
+            const filterValue = filter.replace("aggregated_post_", "")
+            return {
+                field: filterValue,
+                value: sbksData.aggregated_post_filters[filter]}
+        })
+        filters = temp
+    }
+
     for (const [date_start, date_end] of Object.entries(
         splitDateRange(dateRange.start, dateRange.end, selected_profiles)
     )) {
@@ -20,15 +32,17 @@ async function getAggregatedPostData(sbksData) {
         for (const profiles of splitProfiles(dateRange.start, dateRange.end, selected_profiles)) {
             let requests = []
             for (const metric of sbksData.aggregated_post_metrics) {
-                requests.push(doApiCall(
-                    `3/aggregated-metrics`, sbksData, {
-                        date_start: date_start,
-                        date_end: date_end,
-                        profiles: profiles,
-                        metric: metric,
-                        dimensions: dimensions
-                    }
-                ))
+                const payload = {
+                    date_start: date_start,
+                    date_end: date_end,
+                    profiles: profiles,
+                    metric: metric,
+                    dimensions: dimensions,
+                }
+                
+                if (filters.length > 0) payload.filter = filters
+
+                requests.push(doApiCall(`3/aggregated-metrics`, sbksData, payload))
             }
 
             await Promise.all(requests)

@@ -4,6 +4,11 @@ let $aggregatedPostMetricsSpinner = $('#aggregatedPostMetricsSpinner').hide()
 let $dimensionsSelect = $('#aggregated_post_dimensions')
 let $aggregatedPostMetricsSelect = $('#aggregated_post_metrics')
 let $aggregatedPostTimedimension = $('#aggregated_post_timedimension')
+let $aggregatedPostPostLabels = $('#aggregated_post_post_labels')
+let aggregatedPostProfileLabels = $('#aggregated_post_profile_labels')
+let $platformSelect = $('#aggregated_post_platform')
+let $contentTypeSelect = $('#aggregated_post_content_type')
+let $mediaTypeSelect = $('#aggregated_post_media_type')
 
 $(function () {
     $aggregatedPostMetrics.submit(onAggregatedPostMetricsSubmit)
@@ -13,8 +18,11 @@ async function onAggregatedPostMetricsSubmit(e) {
     e.preventDefault()
     $aggregatedPostMetricsSpinner.show()
 
+    const agg_post_filters = Object.keys(AGGREGATED_POST_FILTERS).concat('profile_labels', 'post_labels')
+
     SBKS.aggregated_post_metrics = []
     SBKS.aggregated_post_dimensions = []
+    
     for (const item of $aggregatedPostMetrics.serializeArray()) {
         if (item.name === 'daterange') {
             SBKS.date_range = parseDateRange(item.value)
@@ -24,7 +32,11 @@ async function onAggregatedPostMetricsSubmit(e) {
                 SBKS.aggregated_post_dimensions.unshift(item.value)
             }
             continue
-        }
+        } else if (agg_post_filters.map(filter => 'aggregated_post_'.concat(filter)).includes(item.name)){
+            SBKS.aggregated_post_filters[item.name] = SBKS.aggregated_post_filters[item.name] || []
+            SBKS.aggregated_post_filters[item.name].push(item.value)
+            continue
+        } 
 
         SBKS[item.name] = SBKS[item.name] || []
         SBKS[item.name].push(item.value)
@@ -68,6 +80,31 @@ function renderAggregatedPostMetrics() {
     }).change(onMetricsChange)
 
     $aggregatedPostTimedimension.change(onMetricsChange)
+
+    $aggregatedPostPostLabels.select2({
+        multiple: true,
+        data: SBKS.post_labels.map((val => ({id: val.id, text: val.name})))
+    })
+
+    aggregatedPostProfileLabels.select2({
+        multiple: true,
+        data: SBKS.profile_labels.map((val => ({id: val.id, text: val.name})))
+    })
+
+    $platformSelect.select2({
+        multiple: true,
+        data: AGGREGATED_POST_FILTERS.platform.map((val => ({id: val, text: val})))
+    })
+
+    $contentTypeSelect.select2({
+        multiple: true,
+        data: AGGREGATED_POST_FILTERS.content_type.map((val => ({id: val, text: val})))
+    })
+
+    $mediaTypeSelect.select2({
+        multiple: true,
+        data: AGGREGATED_POST_FILTERS.media_type.map((val => ({id: val, text: val})))
+    })
 
     if(selected_with_no_labels.length){
         $missingProfileLabels.append($(`
