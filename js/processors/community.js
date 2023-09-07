@@ -15,10 +15,20 @@ function prepareCommunityParams(sbksData, params) {
         params.filter = params.filter || []
         params.filter.push({match_all: [{field: 'profile_labels', value: sbksData.community_profile_labels}]})
     }
-
+    
     if (sbksData.community_post_labels) {
         params.filter = params.filter || []
         params.filter.push({match_all: [{field: 'post_labels', value: sbksData.community_post_labels}]})
+    }
+
+    if (sbksData.community_community_type) {
+        params.filter = params.filter || []
+        params.filter.push({field: 'community_type', value: sbksData.community_community_type})
+    }
+    
+    if (sbksData.community_origin) {
+        params.filter = params.filter || []
+        params.filter.push({field: 'origin', value: sbksData.community_origin})
     }
 
     return params

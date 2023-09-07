@@ -809,6 +809,10 @@ let COMMUNITY_METRICS = {
         'community_type', 'post_label', 'profile', 'profile_label', 'resolve_status', 'response_date', 'sentiment'
     ]
 }
+let COMMUNITY_FILTER = {
+    community_type: ['direct_message', 'ad_comment', 'comment', 'mention_comment', 'mention_post', 'mention_story_mention', 'wall_post'],
+    origin: ['User-Generated Content', "Brand's Content"],
+}
 
 let COMMUNITY_POSTS_FIELDS = {
     author: {

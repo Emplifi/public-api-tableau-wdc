@@ -94,6 +94,16 @@ function initCommunityMetricsAndDimensions() {
         })
     })
 
+    $('#community_metrics_community_type').select2({
+        multiple: true,
+        data: COMMUNITY_FILTER.community_type.map(val => ({id: val, text: val}))
+    })
+
+    $('#community_metrics_origin').select2({
+        multiple: true,
+        data: COMMUNITY_FILTER.origin.map(val => ({id: val, text: val}))
+    })
+
     $('select[data-type=community_metrics]').each(function () {
         $(this).empty().select2({multiple: false, data: Object.keys(COMMUNITY_METRICS)})
     }).change(function () {
