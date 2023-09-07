@@ -282,6 +282,8 @@ function renderProfiles() {
                 !SBKS.data_source.startsWith('community')
                 || SBKS.data_source.startsWith('community') && profile.community_enabled
             ) {
+                if(SBKS.data_source === 'profile' && network === 'snapchat') continue
+                
                 profilesToRender.push(profile)
             }
         }

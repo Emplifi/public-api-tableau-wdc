@@ -9,7 +9,8 @@ let SBKS = {
         linkedin: '3/linkedin/profile/posts',
         pinterest: '3/pinterest/profile/posts',
         vkontakte: '3/vkontakte/profile/posts',
-        tiktok: '3/tiktok/profile/posts'
+        tiktok: '3/tiktok/profile/posts',
+        snapchat: '3/snapchat/profile/posts'
     },
     communityUrl: '3/community/metrics',
     communityPostsUrl: '3/community/posts',
@@ -18,7 +19,7 @@ let SBKS = {
     listening_content_url: '3/listening/posts',
     listening_url: '3/listening/metrics',
     data_source: 'profile',
-    networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'tiktok'],
+    networks: ['facebook', 'instagram', 'twitter', 'youtube', 'linkedin', 'pinterest', 'tiktok', 'snapchat'],
     icons: {
         facebook: 'logo-facebook',
         instagram: 'logo-instagram',
@@ -27,7 +28,8 @@ let SBKS = {
         linkedin: 'logo-linkedin',
         pinterest: 'logo-pinterest',
         vk: 'logo-vk',
-        tiktok: 'logo-tiktok'
+        tiktok: 'logo-tiktok',
+        snapchat: 'logo-snapchat'
     },
     profiles: {},
     adaccounts: [],
@@ -314,7 +316,7 @@ let ID_NAME_URL = {
 
 let POSTS_SORT_FIELDS = {
     'comments': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
-    'created_time': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+    'created_time': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok', 'snapchat'],
     'interactions': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
     'interactions_per_1k_fans': ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
     'reactions': ['facebook', 'linkedin'],
@@ -325,17 +327,27 @@ let POSTS_SORT_FIELDS = {
     'reactions_by_type.sorry': ['facebook'],
     'reactions_by_type.wow': ['facebook'],
     'shares': ['facebook', 'pinterest', 'vkontakte'],
-    'insights_avg_time_watched': ['tiktok'],
-    'insights_comments': ['tiktok'],
+    'insights_avg_time_watched': ['tiktok', 'snapchat'],
+    'insights_comments': ['tiktok', 'snapchat'],
     'insights_completion_rate': ['tiktok'],
     'insights_engaged_users': ['facebook'],
-    'insights_engagements': ['tiktok'],
+    'insights_engagements': ['tiktok', 'snapchat'],
+    'insights_impressions': ['snapchat'],
+    'insights_impressions_engagement_rate': ['snapchat'],
     'insights_likes': ['tiktok'],
+    'insights_media_view_time': ['snapchat'],
+    'insights_media_views': ['snapchat'],
     'insights_post_clicks': ['facebook'],
+    'insights_reach': ['snapchat'],
     'insights_reach_by_post_attribution.organic': ['facebook'],
     'insights_reach_by_post_attribution.paid': ['facebook'],
-    'insights_reach_engagement_rate': ['tiktok'],
-    'insights_shares': ['tiktok'],
+    'insights_reach_engagement_rate': ['tiktok', 'snapchat'],
+    'insights_screenshots': ['snapchat'],
+    'insights_shares': ['tiktok', 'snapchat'],
+    'insights_swipe_down': ['snapchat'],
+    'insights_swipe_up': ['snapchat'],
+    'insights_taps_back': ['snapchat'],
+    'insights_taps_forward': ['snapchat'],
     // 'insights_reach_engagement_rate': ['facebook'],
     'insights_video_view_time_average': ['facebook'],
     'insights_video_views_10s': ['facebook'],
@@ -349,8 +361,8 @@ let POSTS_SORT_FIELDS = {
     'insights_story_exits': ['instagram'],
     'insights_story_taps_back': ['instagram'],
     'insights_story_taps_forward': ['instagram'],
-    'insights_video_views': ['instagram', 'tiktok'],
-    'insights_view_time': ['tiktok'],
+    'insights_video_views': ['instagram', 'tiktok', 'snapchat'],
+    'insights_view_time': ['tiktok', 'snapchat'],
     'dislikes': ['youtube'],
     'duration': ['youtube', 'tiktok'],
     'video_view_time': ['youtube'],
@@ -426,13 +438,14 @@ let POSTS_FILTER_FIELDS = {
         linkedin: [],
         pinterest: [],
         vkontakte: [],
-        tiktok: []
+        tiktok: [],
+        snapchat: []
     }
 }
 
 let POSTS_FIELDS = {
     attachments: {
-        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte', 'tiktok', 'snapchat'],
         array: true,
         subfields: {
             title: tableau.dataTypeEnum.string,
@@ -443,7 +456,7 @@ let POSTS_FIELDS = {
         }
     },
     author: {
-        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok', 'snapchat'],
         subfields: ID_NAME_URL
     },
     channel: {networks: ['youtube'], subfields: ID_NAME_URL},
@@ -464,11 +477,11 @@ let POSTS_FIELDS = {
         type: tableau.dataTypeEnum.string
     },
     content_type: {
-        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+        networks: ['facebook', 'instagram', 'linkedin', 'pinterest', 'vkontakte', 'tiktok', 'snapchat'],
         type: tableau.dataTypeEnum.string
     },
     created_time: {
-        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+        networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte', 'tiktok', 'snapchat'],
         type: tableau.dataTypeEnum.datetime
     },
     deleted: {networks: ['facebook'], type: tableau.dataTypeEnum.bool},
@@ -478,7 +491,7 @@ let POSTS_FIELDS = {
     grade: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.string},
     hidden: {networks: ['facebook'], type: tableau.dataTypeEnum.bool},
     id: {
-        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte', 'tiktok', 'snapchat'],
         type: tableau.dataTypeEnum.string
     },
     interactions: {
@@ -491,12 +504,12 @@ let POSTS_FIELDS = {
     },
     link: {networks: ['tiktok'], type: tableau.dataTypeEnum.string},
     likes: {networks: ['instagram', 'youtube', 'vkontakte'], type: tableau.dataTypeEnum.int},
-    media: {networks: ['tiktok'], type: tableau.dataTypeEnum.string},
+    media: {networks: ['tiktok', 'snapchat'], type: tableau.dataTypeEnum.string},
     media_type: {
         networks: ['facebook', 'instagram', 'youtube', 'linkedin', 'pinterest', 'vkontakte'],
         type: tableau.dataTypeEnum.string
     },
-    message: {networks: ['tiktok'], type: tableau.dataTypeEnum.string},
+    message: {networks: ['tiktok', 'snapchat'], type: tableau.dataTypeEnum.string},
     origin: {networks: ['facebook', 'twitter', 'vkontakte'], type: tableau.dataTypeEnum.string},
     page: {networks: ['facebook', 'instagram', 'linkedin', 'vkontakte'], subfields: ID_NAME_URL},
     post_attribution: {
@@ -507,7 +520,7 @@ let POSTS_FIELDS = {
         }
     },
     post_labels: {
-        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte', 'tiktok'],
+        networks: ['facebook', 'instagram', 'youtube', 'twitter', 'linkedin', 'pinterest', 'vkontakte', 'tiktok', 'snapchat'],
         array: true,
         subfields: {
             id: tableau.dataTypeEnum.string,
@@ -549,9 +562,9 @@ let POSTS_FIELDS = {
     },
     video_view_time: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
     video_views: {networks: ['youtube'], type: tableau.dataTypeEnum.int},
-    insights_avg_time_watched: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
+    insights_avg_time_watched: {networks: ['tiktok', 'snapchat'], type: tableau.dataTypeEnum.int},
     insights_clicks: {networks: ['linkedin'], type: tableau.dataTypeEnum.int},
-    insights_comments: {networks: ['tiktok', 'linkedin'], type: tableau.dataTypeEnum.int},
+    insights_comments: {networks: ['tiktok', 'linkedin', 'snapchat'], type: tableau.dataTypeEnum.int},
     insights_completion_rate: {networks: ['tiktok'], type: tableau.dataTypeEnum.float},
     insights_content_impressions: {networks: ['linkedin'], type: tableau.dataTypeEnum.int},
     insights_impressions_by_traffic_source: {
@@ -562,8 +575,8 @@ let POSTS_FIELDS = {
         }
     },
     insights_likes: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
-    insights_shares: {networks: ['tiktok'], type: tableau.dataTypeEnum.int},
-    insights_view_time: {networks: ['tiktok', 'linkedin'], type: tableau.dataTypeEnum.int},
+    insights_shares: {networks: ['tiktok', 'snapchat'], type: tableau.dataTypeEnum.int},
+    insights_view_time: {networks: ['tiktok', 'linkedin', 'snapchat'], type: tableau.dataTypeEnum.int},
     insights_viewers_by_country: {
         networks: ['tiktok'],
         subfields: {
@@ -572,7 +585,7 @@ let POSTS_FIELDS = {
         }
     },
     insights_engaged_users: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
-    insights_engagements: {networks: ['facebook', 'tiktok', 'linkedin'], type: tableau.dataTypeEnum.int},
+    insights_engagements: {networks: ['facebook', 'tiktok', 'linkedin', 'snapchat'], type: tableau.dataTypeEnum.int},
     insights_engagement: {networks: ['instagram', 'youtube'], type: tableau.dataTypeEnum.int},
     insights_engagement_by_engagement_type: {
         networks: ['instagram'],
@@ -582,8 +595,8 @@ let POSTS_FIELDS = {
             saves: tableau.dataTypeEnum.int
         }
     },
-    insights_impressions: {networks: ['facebook', 'instagram'], type: tableau.dataTypeEnum.int},
-    insights_impressions_engagement_rate: {networks: ['facebook', 'instagram', 'linkedin'], type: tableau.dataTypeEnum.float},
+    insights_impressions: {networks: ['facebook', 'instagram', 'snapchat'], type: tableau.dataTypeEnum.int},
+    insights_impressions_engagement_rate: {networks: ['facebook', 'instagram', 'linkedin', 'snapchat'], type: tableau.dataTypeEnum.float},
     insights_impressions_by_post_attribution: {
         networks: ['facebook'],
         subfields: {
@@ -601,6 +614,8 @@ let POSTS_FIELDS = {
             share: tableau.dataTypeEnum.int
         }
     },
+    insights_media_view_time: {networks: ['snapchat'], type: tableau.dataTypeEnum.int},
+    insights_media_views: {networks: ['snapchat'], type: tableau.dataTypeEnum.int},
     insights_negative_feedback_unique: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_post_clicks: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_post_clicks_by_clicks_type: {
@@ -614,7 +629,7 @@ let POSTS_FIELDS = {
         }
     },
     insights_post_clicks_unique: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
-    insights_reach: {networks: ['facebook', 'instagram', 'tiktok'], type: tableau.dataTypeEnum.int},
+    insights_reach: {networks: ['facebook', 'instagram', 'tiktok', 'snapchat'], type: tableau.dataTypeEnum.int},
     insights_reach_by_post_attribution: {
         networks: ['facebook'],
         subfields: {
@@ -623,7 +638,7 @@ let POSTS_FIELDS = {
             viral: tableau.dataTypeEnum.int
         }
     },
-    insights_reach_engagement_rate: {networks: ['facebook', 'instagram', 'tiktok'], type: tableau.dataTypeEnum.float},
+    insights_reach_engagement_rate: {networks: ['facebook', 'instagram', 'tiktok', 'snapchat'], type: tableau.dataTypeEnum.float},
     insights_reactions: {networks: ['facebook', 'linkedin'], type: tableau.dataTypeEnum.int},
     insights_reactions_by_type: {
         networks: ['facebook'],
@@ -637,11 +652,16 @@ let POSTS_FIELDS = {
         }
     },
     insights_saves: {networks: ['instagram'], type: tableau.dataTypeEnum.int},
+    insights_screenshots: {networks: ['snapchat'], type: tableau.dataTypeEnum.int},
     insights_story_completion_rate: {networks: ['instagram'], type: tableau.dataTypeEnum.float},
     insights_story_exits: {networks: ['instagram'], type: tableau.dataTypeEnum.int},
     insights_story_replies: {networks: ['instagram'], type: tableau.dataTypeEnum.int},
     insights_story_taps_back: {networks: ['instagram'], type: tableau.dataTypeEnum.int},
     insights_story_taps_forward: {networks: ['instagram'], type: tableau.dataTypeEnum.int},
+    insights_swipe_down: {networks: ['snapchat'], type: tableau.dataTypeEnum.int},
+    insights_swipe_up: {networks: ['snapchat'], type: tableau.dataTypeEnum.int},
+    insights_taps_back: {networks: ['snapchat'], type: tableau.dataTypeEnum.int},
+    insights_taps_forward: {networks: ['snapchat'], type: tableau.dataTypeEnum.int},
     insights_video_view_time: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_video_view_time_average: {networks: ['facebook'], type: tableau.dataTypeEnum.float},
     insights_video_view_time_by_distribution: {
@@ -700,7 +720,7 @@ let POSTS_FIELDS = {
             "F_18_24": tableau.dataTypeEnum.int,
         }
     },
-    insights_video_views: {networks: ['facebook', 'instagram', 'linkedin', 'tiktok'], type: tableau.dataTypeEnum.int},
+    insights_video_views: {networks: ['facebook', 'instagram', 'linkedin', 'tiktok', 'snapchat'], type: tableau.dataTypeEnum.int},
     insights_video_views_10s: {networks: ['facebook'], type: tableau.dataTypeEnum.int},
     insights_video_views_10s_by_play_type: {
         networks: ['facebook'],
