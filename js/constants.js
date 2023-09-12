@@ -298,6 +298,23 @@ let AGGREGATED_POST_METRICS = {
         'insights_view_time': common_agg_dimensions,
         'number_of_comments': engagement_rate,
         'page_posts': engagement_rate
+    },
+    snapchat: {
+        'insights_avg_time_watched': common_agg_dimensions,
+        'insights_engagements': insights_engagements,
+        'insights_impressions': engagement_rate,
+        'insights_impressions_engagement_rate': insights_engagements,
+        'insights_media_view_time': insights_engagements,
+        'insights_media_views': common_agg_dimensions.concat(['content_type', 'media_type', 'sentiment_type']),
+        'insights_reach_engagement': common_agg_dimensions.concat(['content_type', 'media_type', 'published_status']),
+        'insights_reach_per_content': engagement_rate,
+        'insights_screenshots': insights_engagements,
+        'insights_swipe_down': insights_engagements,
+        'insights_swipe_up': insights_engagements,
+        'insights_video_views': insights_video_views,
+        'insights_view_time': common_agg_dimensions,
+        'number_of_comments': engagement_rate,
+        'page_posts': engagement_rate
     }
 }
 
@@ -332,13 +349,11 @@ let POSTS_SORT_FIELDS = {
     'insights_completion_rate': ['tiktok'],
     'insights_engaged_users': ['facebook'],
     'insights_engagements': ['tiktok', 'snapchat'],
-    'insights_impressions': ['snapchat'],
     'insights_impressions_engagement_rate': ['snapchat'],
     'insights_likes': ['tiktok'],
     'insights_media_view_time': ['snapchat'],
     'insights_media_views': ['snapchat'],
     'insights_post_clicks': ['facebook'],
-    'insights_reach': ['snapchat'],
     'insights_reach_by_post_attribution.organic': ['facebook'],
     'insights_reach_by_post_attribution.paid': ['facebook'],
     'insights_reach_engagement_rate': ['tiktok', 'snapchat'],
@@ -354,8 +369,8 @@ let POSTS_SORT_FIELDS = {
     'insights_video_views_by_post_attribution.organic': ['facebook'],
     'insights_video_views_by_post_attribution.paid': ['facebook'],
     'likes': ['instagram', 'youtube', 'vkontakte'],
-    'insights_impressions': ['instagram'],
-    'insights_reach': ['instagram'],
+    'insights_impressions': ['instagram', 'snapchat'],
+    'insights_reach': ['instagram', 'snapchat'],
     'insights_saves': ['instagram'],
     'insights_story_completion_rate': ['instagram'],
     'insights_story_exits': ['instagram'],
